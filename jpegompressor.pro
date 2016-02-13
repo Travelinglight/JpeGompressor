@@ -13,8 +13,12 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp\
+        matrixDsp.cpp\
+        imagesDsp.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h\
+            matrixDsp.h\
+            imagesDsp.h
 
 FORMS    += mainwindow.ui
