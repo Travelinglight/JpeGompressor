@@ -21,9 +21,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QSizePolicy spCol_2(QSizePolicy::Preferred, QSizePolicy::Preferred);
     QSizePolicy spCol_3(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
-    spCol_1.setHorizontalStretch(1);
-    spCol_2.setHorizontalStretch(2);
-    spCol_3.setHorizontalStretch(2);
+    spCol_1.setHorizontalStretch(2);
+    spCol_2.setHorizontalStretch(3);
+    spCol_3.setHorizontalStretch(3);
 
     matrixDsp0->setSizePolicy(spCol_1);
     imagesDsp0->setSizePolicy(spCol_2);
