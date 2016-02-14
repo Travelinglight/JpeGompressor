@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp\
         matrixDsp.cpp\
-        imagesDsp.cpp
+        imagesDsp.cpp\
+        rgbDsp.cpp
 
 HEADERS  += mainwindow.h\
             matrixDsp.h\
-            imagesDsp.h
+            imagesDsp.h\
+            rgbDsp.h
 
 FORMS    += mainwindow.ui
