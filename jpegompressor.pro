@@ -16,11 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp\
         matrixDsp.cpp\
         imagesDsp.cpp\
-        rgbDsp.cpp
+        rgbDsp.cpp\
+        yuvImgDsp.cpp
 
 HEADERS  += mainwindow.h\
             matrixDsp.h\
             imagesDsp.h\
-            rgbDsp.h
+            rgbDsp.h\
+            yuvImgDsp.h
 
 FORMS    += mainwindow.ui

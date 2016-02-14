@@ -5,8 +5,8 @@ ImagesDsp::ImagesDsp(QWidget *parent) :
 {
     // init images
     img0 = new RgbDsp();
-    img1 = new RgbDsp();
-    img2 = new RgbDsp();
+    img1 = new YuvImgDsp();
+    img2 = new YuvImgDsp();
 
     // init a grid layout
     mainLayout = new QGridLayout(this);

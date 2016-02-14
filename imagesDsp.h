@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QGridLayout>
 #include "rgbDsp.h"
+#include "yuvImgDsp.h"
 
 class ImagesDsp : public QWidget
 {
@@ -13,8 +14,8 @@ public:
     explicit ImagesDsp(QWidget *parent = 0);
 
     RgbDsp *img0;
-    RgbDsp *img1;
-    RgbDsp *img2;
+    YuvImgDsp *img1;
+    YuvImgDsp *img2;
 
     QGridLayout *mainLayout;
 };
