@@ -42,7 +42,6 @@ private:
 
 public slots:
     void on_actionOpen_File_triggered();
-
 };
 
 #endif // MAINWINDOW_H

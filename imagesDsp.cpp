@@ -16,3 +16,7 @@ ImagesDsp::ImagesDsp(QWidget *parent) :
     mainLayout->addWidget(img1, 1, 0, 1, 1);
     mainLayout->addWidget(img2, 2, 0, 1, 1);
 }
+
+void ImagesDsp::srcImageUpdate(const QString &fileName) {
+    img0->srcImageUpdate(fileName);
+}
