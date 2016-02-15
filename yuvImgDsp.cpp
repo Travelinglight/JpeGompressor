@@ -35,3 +35,5 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
     mainLayout->addWidget(title, 10, 0, 1, 3);
 }
+
+YuvImgDsp::~YuvImgDsp() {}

@@ -11,6 +11,8 @@ class YuvImgDsp : public QWidget
     Q_OBJECT
 public:
     explicit YuvImgDsp(QWidget *parent = 0);
+    ~YuvImgDsp();
+
     QLabel *title;
     QLabel *imgShowY;
     QLabel *imgShowU;

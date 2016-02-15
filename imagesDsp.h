@@ -7,6 +7,8 @@
 #include <QWidget>
 #include "rgbDsp.h"
 #include "yuvImgDsp.h"
+#include "sspDsp.h"
+#include "dctDsp.h"
 
 class ImagesDsp : public QWidget
 {
@@ -17,8 +19,8 @@ public:
     void srcImageUpdate(const QString &fileName);
 
     RgbDsp *img0;
-    YuvImgDsp *img1;
-    YuvImgDsp *img2;
+    SspDsp *img1;
+    DctDsp *img2;
 
     QGridLayout *mainLayout;
 };
