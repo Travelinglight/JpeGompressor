@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,16 +10,91 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>400</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen_File"/>
+    <addaction name="actionSave_File"/>
+   </widget>
+   <widget class="QMenu" name="menuQuantization_Matrix">
+    <property name="title">
+     <string>Quantization Matrix</string>
+    </property>
+    <addaction name="actionNon_uniform_quantization"/>
+    <addaction name="actionLow_non_uniform_quantization"/>
+    <addaction name="actionHigh_non_uniform_quantization"/>
+    <addaction name="actionConstant_quantization"/>
+    <addaction name="actionLow_constant_quantization"/>
+    <addaction name="actionHigh_constant_quantizatin"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuQuantization_Matrix"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionOpen_File">
+   <property name="text">
+    <string>Open File</string>
+   </property>
+  </action>
+  <action name="actionSave_File">
+   <property name="text">
+    <string>Save File</string>
+   </property>
+  </action>
+  <action name="actionNon_uniform_quantization">
+   <property name="text">
+    <string>non-uniform quantization</string>
+   </property>
+  </action>
+  <action name="actionLow_non_uniform_quantization">
+   <property name="text">
+    <string>low non-uniform quantization</string>
+   </property>
+  </action>
+  <action name="actionHigh_non_uniform_quantization">
+   <property name="text">
+    <string>high non-uniform quantization</string>
+   </property>
+  </action>
+  <action name="actionConstant_quantization">
+   <property name="text">
+    <string>constant quantization</string>
+   </property>
+  </action>
+  <action name="actionLow_constant_quantization">
+   <property name="text">
+    <string>low constant quantization</string>
+   </property>
+  </action>
+  <action name="actionHigh_constant_quantizatin">
+   <property name="text">
+    <string>high constant quantization</string>
+   </property>
+  </action>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>

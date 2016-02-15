@@ -40,3 +40,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+void MainWindow::on_actionOpen_File_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Choose File"), "", "Image File (*.jpg)");
+}

@@ -1,20 +1,22 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtGui>
-#include <QMainWindow>
-#include <QLabel>
-#include <QMenu>
-#include <QMenuBar>
 #include <QAction>
 #include <QComboBox>
+#include <QFileDialog>
+#include <QGridLayout>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QMainWindow>
+#include <QMenu>
+#include <QMenuBar>
 #include <QSpinBox>
+#include <QString>
+#include <QTextCharFormat>
+#include <QtGui>
 #include <QToolBar>
 #include <QToolButton>
-#include <QTextCharFormat>
-#include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QGridLayout>
 #include "matrixDsp.h"
 #include "imagesDsp.h"
 
@@ -38,7 +40,9 @@ private:
     ImagesDsp *imagesDsp0;
     ImagesDsp *imagesDsp1;
 
-//    QToolBar *toolBar;
+public slots:
+    void on_actionOpen_File_triggered();
+
 };
 
 #endif // MAINWINDOW_H
