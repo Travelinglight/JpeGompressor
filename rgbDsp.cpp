@@ -29,4 +29,5 @@ void RgbDsp::srcImageUpdate(const QString &fileName) {
     imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio)));
     imgShow->show();
     mainLayout->addWidget(imgShow, 0, 0, 9, 1);
+    emit rgbUpdatedSrc(2);
 }

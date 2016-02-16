@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QLabel>
 #include <QImage>
+#include <QString>
 #include <QGridLayout>
 
 class YuvImgDsp : public QWidget

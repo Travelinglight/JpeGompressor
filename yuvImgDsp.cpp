@@ -3,8 +3,6 @@
 YuvImgDsp::YuvImgDsp(QWidget *parent) :
     QWidget(parent)
 {
-
-
     // init img & img Labels
     imgY = new QImage();
     imgY->load("/Users/Kingston/Desktop/lynn.jpg");

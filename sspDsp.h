@@ -14,6 +14,9 @@ class SspDsp : public YuvImgDsp
 public:
     explicit SspDsp(QWidget *parent = 0);
     ~SspDsp();
+
+public slots:
+    void sspInputChanged(int x);
 };
 
 #endif // SSPDSP_H

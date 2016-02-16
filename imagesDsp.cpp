@@ -12,9 +12,13 @@ ImagesDsp::ImagesDsp(QWidget *parent) :
     mainLayout = new QGridLayout(this);
     mainLayout->setSpacing(6);
 
+    // add widgets to grid layout
     mainLayout->addWidget(img0, 0, 0, 1, 1);
     mainLayout->addWidget(img1, 1, 0, 1, 1);
     mainLayout->addWidget(img2, 2, 0, 1, 1);
+
+    // signals and slots connection
+    connect(img0, SIGNAL(rgbUpdatedSrc(int)), img1, SLOT(sspInputChanged(int)));
 }
 
 void ImagesDsp::srcImageUpdate(const QString &fileName) {

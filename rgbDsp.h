@@ -20,6 +20,9 @@ public:
     QImage *img;
     QGridLayout *mainLayout;
 
+signals:
+    void rgbUpdatedSrc(int x);
+
 };
 
 #endif // RGBDSP_H
