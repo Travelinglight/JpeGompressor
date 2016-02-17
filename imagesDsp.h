@@ -9,6 +9,7 @@
 #include "yuvImgDsp.h"
 #include "sspDsp.h"
 #include "dctDsp.h"
+#include "rawImg.h"
 
 class ImagesDsp : public QWidget
 {

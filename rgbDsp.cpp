@@ -7,7 +7,7 @@ RgbDsp::RgbDsp(QWidget *parent) :
     img = new QImage();
     img->load("/Users/Kingston/Desktop/lynn.jpg");
     imgShow = new QLabel(this);
-    imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio)));
+    imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShow->show();
 
     // set up quantization and compression ratio labels
@@ -37,8 +37,9 @@ void RgbDsp::srcImageUpdate(const QString &fileName) {
     // load image
     img->load(fileName);
     imgShow = new QLabel(this);
-    imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio)));
+    imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShow->show();
     mainLayout->addWidget(imgShow, 0, 0, 9, 1);
-    emit rgbUpdatedSrc(img);
+    rawImg = new RawImg(img);
+    emit rgbUpdatedSrc(*rawImg);
 }

@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QString>
 #include <QWidget>
+#include "rawImg.h"
 
 class RgbDsp : public QWidget
 {
@@ -20,11 +21,12 @@ public:
     QLabel *imgShow;
     QImage *img;
     QGridLayout *mainLayout;
+    RawImg *rawImg;
 
     int ***rgbMatrix;
 
 signals:
-    void rgbUpdatedSrc(const QImage *srcImg);
+    void rgbUpdatedSrc(RawImg &rawImg);
 };
 
 #endif // RGBDSP_H

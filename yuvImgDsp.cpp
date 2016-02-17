@@ -7,17 +7,17 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
     imgY = new QImage();
     imgY->load("/Users/Kingston/Desktop/lynn.jpg");
     imgShowY = new QLabel(this);
-    imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio)));
+    imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
     imgU = new QImage();
     imgU->load("/Users/Kingston/Desktop/lynn.jpg");
     imgShowU = new QLabel(this);
-    imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio)));
+    imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
     imgV = new QImage();
     imgV->load("/Users/Kingston/Desktop/lynn.jpg");
     imgShowV = new QLabel(this);
-    imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio)));
+    imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
     // init title
     title = new QLabel(tr("YUV image show"));
@@ -32,9 +32,6 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
     mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
     mainLayout->addWidget(title, 10, 0, 1, 3);
-
-    // init rgbMatrix
-    rgbMatrix = NULL;
 
     // init data arrays
     dataY = NULL;

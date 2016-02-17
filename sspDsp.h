@@ -7,6 +7,7 @@
 #include <QString>
 #include <QWidget>
 #include "yuvImgDsp.h"
+#include "rawImg.h"
 
 class SspDsp : public YuvImgDsp
 {
@@ -16,7 +17,7 @@ public:
     ~SspDsp();
 
 public slots:
-    void sspInputChanged(const QImage *srcImg);
+    void sspInputChanged(RawImg &rawImg);
 };
 
 #endif // SSPDSP_H

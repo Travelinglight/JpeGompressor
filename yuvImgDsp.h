@@ -25,7 +25,6 @@ public:
     QImage *imgV;
     QGridLayout *mainLayout;
 
-    int ***rgbMatrix;
     unsigned char *dataY;
     unsigned char *dataU;
     unsigned char *dataV;

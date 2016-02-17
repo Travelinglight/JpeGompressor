@@ -19,7 +19,8 @@ SOURCES += main.cpp\
         rgbDsp.cpp\
         yuvImgDsp.cpp\
         sspDsp.cpp\
-        dctDsp.cpp
+        dctDsp.cpp\
+        rawImg.cpp
 
 HEADERS  += mainwindow.h\
             matrixDsp.h\
@@ -27,6 +28,7 @@ HEADERS  += mainwindow.h\
             rgbDsp.h\
             yuvImgDsp.h\
             sspDsp.h\
-            dctDsp.h
+            dctDsp.h\
+            rawImg.h
 
 FORMS    += mainwindow.ui
