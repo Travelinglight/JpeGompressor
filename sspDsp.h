@@ -16,7 +16,7 @@ public:
     ~SspDsp();
 
 public slots:
-    void sspInputChanged(int x);
+    void sspInputChanged(const QImage *srcImg);
 };
 
 #endif // SSPDSP_H

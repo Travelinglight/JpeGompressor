@@ -32,6 +32,26 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
     mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
     mainLayout->addWidget(title, 10, 0, 1, 3);
+
+    // init rgbMatrix
+    rgbMatrix = NULL;
+
+    // init data arrays
+    dataY = NULL;
+    dataU = NULL;
+    dataV = NULL;
 }
 
 YuvImgDsp::~YuvImgDsp() {}
+
+void YuvImgDsp::rgb2yuv(int *a) {
+    static const float b[3][3] = {{0.299, 0.587, 0.114}, {-0.14713, -0.28886, 0.436}, {0.615, -0.51499, -0.10001}};
+    int c[3] = {0, 0, 0};
+
+    for (int i = 0; i < 3; i++)
+        for (int j = 0; j < 3; j++)
+            c[i] += b[i][j] * a[j];
+
+    for (int i = 0; i < 3; i++)
+        a[i] = c[i];
+}

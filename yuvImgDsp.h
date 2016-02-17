@@ -14,6 +14,8 @@ public:
     explicit YuvImgDsp(QWidget *parent = 0);
     ~YuvImgDsp();
 
+    void rgb2yuv(int *a);
+
     QLabel *title;
     QLabel *imgShowY;
     QLabel *imgShowU;
@@ -23,6 +25,10 @@ public:
     QImage *imgV;
     QGridLayout *mainLayout;
 
+    int ***rgbMatrix;
+    unsigned char *dataY;
+    unsigned char *dataU;
+    unsigned char *dataV;
 };
 
 #endif // YUVIMGDSP_H

@@ -14,15 +14,17 @@ public:
     explicit RgbDsp(QWidget *parent = 0);
 
     void srcImageUpdate(const QString &fileName);
+    void extractColor();
 
     QLabel *title;
     QLabel *imgShow;
     QImage *img;
     QGridLayout *mainLayout;
 
-signals:
-    void rgbUpdatedSrc(int x);
+    int ***rgbMatrix;
 
+signals:
+    void rgbUpdatedSrc(const QImage *srcImg);
 };
 
 #endif // RGBDSP_H

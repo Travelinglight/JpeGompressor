@@ -24,10 +24,21 @@ RgbDsp::RgbDsp(QWidget *parent) :
 }
 
 void RgbDsp::srcImageUpdate(const QString &fileName) {
+    // clear rgbMatrix
+    if (rgbMatrix != NULL) {
+        for (int i = 0; i < img->height(); i++) {
+            for (int j = 0; j < img->width(); j++)
+                delete rgbMatrix[i][j];
+            delete rgbMatrix[i];
+        }
+        delete rgbMatrix;
+    }
+
+    // load image
     img->load(fileName);
     imgShow = new QLabel(this);
     imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio)));
     imgShow->show();
     mainLayout->addWidget(imgShow, 0, 0, 9, 1);
-    emit rgbUpdatedSrc(2);
+    emit rgbUpdatedSrc(img);
 }

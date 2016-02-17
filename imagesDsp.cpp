@@ -18,7 +18,7 @@ ImagesDsp::ImagesDsp(QWidget *parent) :
     mainLayout->addWidget(img2, 2, 0, 1, 1);
 
     // signals and slots connection
-    connect(img0, SIGNAL(rgbUpdatedSrc(int)), img1, SLOT(sspInputChanged(int)));
+    connect(img0, SIGNAL(rgbUpdatedSrc(const QImage*)), img1, SLOT(sspInputChanged(const QImage*)));
 }
 
 void ImagesDsp::srcImageUpdate(const QString &fileName) {
