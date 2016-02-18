@@ -42,8 +42,8 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
 YuvImgDsp::~YuvImgDsp() {}
 
 void YuvImgDsp::rgb2yuv(int *a) {
-    static const float b[3][3] = {{0.299, 0.587, 0.114}, {-0.14713, -0.28886, 0.436}, {0.615, -0.51499, -0.10001}};
-    int c[3] = {0, 0, 0};
+    static const float b[3][3] = {{0.257, 0.504, 0.098}, {-0.148, -0.291, 0.439}, {0.439, -0.368, -0.071}};
+    float c[3] = {16, 128, 128};
 
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
