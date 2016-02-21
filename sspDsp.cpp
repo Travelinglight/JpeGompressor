@@ -7,6 +7,9 @@ SspDsp::SspDsp(QWidget *parent) :
     tmpDataY = NULL;
     tmpDataU = NULL;
     tmpDataV = NULL;
+    crtBlock = new int*[8];
+    for (int i = 0; i < 8; i++)
+        crtBlock[i] = new int[8];
 }
 
 SspDsp::~SspDsp() {};
@@ -111,6 +114,12 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
         imgShowY->installEventFilter(this);
         imgShowY->show();
         mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
+
+        // extract current block
+        for (int i = 0; i < 8; i++)
+            for (int j = 0; j < 8; j++)
+                crtBlock[i][j] = tmpDataY[(bY * 8 * crtWidth + bX * 8 * 8 + i * (crtWidth - bX * 8) + j) * 4];
+        emit sspChangingMatrix2(crtBlock);
     }
     return false;
 }

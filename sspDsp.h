@@ -24,9 +24,13 @@ public:
     unsigned char *tmpDataY;
     unsigned char *tmpDataU;
     unsigned char *tmpDataV;
+    int **crtBlock;
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
+
+signals:
+    void sspChangingMatrix2(int **crtBlock);
 
 public slots:
     void sspInputChanged(RawImg &rawImg);

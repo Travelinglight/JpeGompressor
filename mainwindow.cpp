@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     hLayout->addWidget(imagesDsp1);
 
     canvas->setLayout(hLayout); 
+
+    connect(imagesDsp0->img1, SIGNAL(sspChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
 }
 
 MainWindow::~MainWindow()

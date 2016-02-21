@@ -62,5 +62,11 @@ MatrixDsp::MatrixDsp(QWidget *parent) :
     mainLayout->addWidget(oriLabel, 17, 0, 1, 1);
     mainLayout->addWidget(qtzMatrix, 18, 0, 7, 1);
     mainLayout->addWidget(qtzLabel, 25, 0, 1, 1);
+}
+
+void MatrixDsp::matrix2ChangedBySsp(int **crtBlock) {
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
+            oriMatrix->setItem(i, j, new QTableWidgetItem(QString::number(crtBlock[i][j])));
 
 }

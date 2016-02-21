@@ -24,6 +24,9 @@ public:
 
     QGridLayout *mainLayout;
 
+public slots:
+    void matrix2ChangedBySsp(int **crtBlock);
+
 };
 
 #endif //MATRIXDSP_H
