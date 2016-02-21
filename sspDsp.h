@@ -2,6 +2,8 @@
 #define SSPDSP_H
 
 #include <QGridLayout>
+#include <QDebug>
+#include <QEvent>
 #include <QImage>
 #include <QLabel>
 #include <QString>
@@ -15,6 +17,15 @@ class SspDsp : public YuvImgDsp
 public:
     explicit SspDsp(QWidget *parent = 0);
     ~SspDsp();
+
+    bool isYellow(int bX, int bY, int p);
+
+    unsigned char *tmpDataY;
+    unsigned char *tmpDataU;
+    unsigned char *tmpDataV;
+
+protected:
+    bool eventFilter(QObject* obj, QEvent* event);
 
 public slots:
     void sspInputChanged(RawImg &rawImg);

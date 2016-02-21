@@ -1,6 +1,7 @@
 #ifndef IMAGESDSP_H
 #define IMAGESDSP_H
 
+#include <QEvent>
 #include <QGridLayout>
 #include <QLabel>
 #include <QString>

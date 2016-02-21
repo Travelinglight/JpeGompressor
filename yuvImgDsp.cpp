@@ -19,6 +19,9 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
     imgShowV = new QLabel(this);
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
+    crtWidth = imgY->width();
+    crtHeight = imgY->height();
+
     // init title
     title = new QLabel(tr("YUV image show"));
     title->setAlignment(Qt::AlignCenter);

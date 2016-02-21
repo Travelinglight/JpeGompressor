@@ -28,6 +28,8 @@ public:
     unsigned char *dataY;
     unsigned char *dataU;
     unsigned char *dataV;
+    int crtWidth;
+    int crtHeight;
 };
 
 #endif // YUVIMGDSP_H
