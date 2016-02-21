@@ -1,6 +1,7 @@
 #ifndef SSPDSP_H
 #define SSPDSP_H
 
+#include <QDebug>
 #include <QGridLayout>
 #include <QDebug>
 #include <QEvent>
@@ -24,16 +25,21 @@ public:
     unsigned char *tmpDataY;
     unsigned char *tmpDataU;
     unsigned char *tmpDataV;
-    int **crtBlock;
+    int **crtBlock; // current 8x8 block
+
+    RawImg *sspData;
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
 
 signals:
+//    void sspChangingRgb(PassYUV passYUV);
+    void sspChangingDct(RawImg &sspData);
     void sspChangingMatrix2(int **crtBlock);
 
 public slots:
-    void sspInputChanged(RawImg &rawImg);
+    void sspChangedByRgb(RawImg &rawImg);
+//    void sspChangedByDct(PassYUV passYUV);
 };
 
 #endif // SSPDSP_H

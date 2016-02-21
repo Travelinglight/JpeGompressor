@@ -7,11 +7,13 @@
 class RawImg {
 public:
     explicit RawImg(QImage *src);
+    explicit RawImg(int w, int h);
+    RawImg(RawImg &model);
     ~RawImg();
 
     int height;
     int width;
-    int ***data;
+    int *data;
 };
 
 #endif
