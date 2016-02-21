@@ -16,6 +16,7 @@ public:
 
     void srcImageUpdate(const QString &fileName);
     void extractColor();
+    void yuv2rgb(int *a);
 
     QLabel *title;
     QLabel *imgShow;
@@ -26,7 +27,9 @@ public:
     int ***rgbMatrix;
 
 signals:
-    void rgbUpdatedSrc(RawImg &rawImg);
-};
+    void rgbChangingSsp(RawImg &rawImg);
 
+//public slots:
+//    void rgbChangedBySsp(PassYUV passYUV);
+};
 #endif // RGBDSP_H

@@ -7,6 +7,7 @@
 #include <QString>
 #include <QWidget>
 #include "yuvImgDsp.h"
+#include "rawImg.h"
 
 class DctDsp : public YuvImgDsp
 {
@@ -14,6 +15,14 @@ class DctDsp : public YuvImgDsp
 public:
     explicit DctDsp(QWidget *parent = 0);
     ~DctDsp();
+
+//signals:
+//    void dctChangingDct(PassYUV passYUV);
+//    void dctChangingSsp(PassYUV passYUV);
+
+public slots:
+//    void dctChangedByDct(PassYUV passYUV);
+    void dctChangedBySsp(int w, int h, unsigned char data[]);
 };
 
 #endif // DCTDSP_H

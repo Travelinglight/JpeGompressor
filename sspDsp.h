@@ -16,8 +16,13 @@ public:
     explicit SspDsp(QWidget *parent = 0);
     ~SspDsp();
 
+signals:
+//    void sspChangingRgb(PassYUV passYUV);
+    void sspChangingDct(int w, int h, unsigned char data[]);
+
 public slots:
-    void sspInputChanged(RawImg &rawImg);
+    void sspChangedByRgb(RawImg &rawImg);
+//    void sspChangedByDct(PassYUV passYUV);
 };
 
 #endif // SSPDSP_H

@@ -7,6 +7,7 @@
 class RawImg {
 public:
     explicit RawImg(QImage *src);
+    RawImg();
     ~RawImg();
 
     int height;

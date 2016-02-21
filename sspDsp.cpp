@@ -5,9 +5,10 @@ SspDsp::SspDsp(QWidget *parent) :
 {
 }
 
-SspDsp::~SspDsp() {};
+SspDsp::~SspDsp() {}
 
-void SspDsp::sspInputChanged(RawImg &rawImg) {
+void SspDsp::sspChangedByRgb(RawImg &rawImg)
+{
     // delete former QImage and data
     delete imgY;
     delete imgU;
@@ -24,26 +25,21 @@ void SspDsp::sspInputChanged(RawImg &rawImg) {
     dataU = new unsigned char[rawImg.width * rawImg.height * 4];
     dataV = new unsigned char[rawImg.width * rawImg.height * 4];
 
+    unsigned char data[rawImg.width * rawImg.height *3];
+
     // fill in data
-    for (int i = 0, j = 0; i < rawImg.width * rawImg.height; ++i, j += 4) {
+    for (int i = 0, j = 0, k=0; i < rawImg.width * rawImg.height; ++i, j += 4, k+=3)
+    {
         // convert rgb to yuv
         rgb2yuv(rawImg.data[i / rawImg.width][i % rawImg.width]);
 
-        dataY[j] = rawImg.data[i / rawImg.width][i % rawImg.width][0];
-        dataY[j + 1] = rawImg.data[i / rawImg.width][i % rawImg.width][0];
-        dataY[j + 2] = rawImg.data[i / rawImg.width][i % rawImg.width][0];
-        dataY[j + 3] = ~0;       // Alpha
+        data[k]   = dataY[j] = dataY[j + 1] = dataY[j + 2] = rawImg.data[i / rawImg.width][i % rawImg.width][0];
+        data[k+1] = dataU[j] = dataU[j + 1] = dataU[j + 2] = rawImg.data[i / rawImg.width][i % rawImg.width][1];
+        data[k+2] = dataV[j] = dataV[j + 1] = dataV[j + 2] = rawImg.data[i / rawImg.width][i % rawImg.width][2];
 
-        dataU[j] = rawImg.data[i / rawImg.width][i % rawImg.width][1];
-        dataU[j + 1] = rawImg.data[i / rawImg.width][i % rawImg.width][1];
-        dataU[j + 2] = rawImg.data[i / rawImg.width][i % rawImg.width][1];
-        dataU[j + 3] = ~0;       // Alpha
-
-        dataV[j] = rawImg.data[i / rawImg.width][i % rawImg.width][2];
-        dataV[j + 1] = rawImg.data[i / rawImg.width][i % rawImg.width][2];
-        dataV[j + 2] = rawImg.data[i / rawImg.width][i % rawImg.width][2];
-        dataV[j + 3] = ~0;       // Alpha
+        dataY[j + 3] = dataU[j + 3] = dataV[j + 3] = ~0;       // Alpha
     }
+
 
     // display YUV images
     imgY = new QImage(dataY, rawImg.width, rawImg.height, QImage::Format_ARGB32);
@@ -63,4 +59,7 @@ void SspDsp::sspInputChanged(RawImg &rawImg) {
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowV->show();
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
+
+    emit sspChangingDct(rawImg.width, rawImg.height, data);
 }
+
