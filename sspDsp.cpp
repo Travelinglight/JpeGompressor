@@ -115,7 +115,6 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
     return false;
 }
 
-/* This function is to judge if a pixel should be dyed yellow */
 bool SspDsp::isYellow(int bX, int bY, int p) {
     if ((p / crtWidth + 1 < 8 * bY) || (p / crtWidth - 1 > 8 * bY + 7))
         return false;
