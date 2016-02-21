@@ -1,6 +1,7 @@
 #ifndef SSPDSP_H
 #define SSPDSP_H
 
+#include <QDebug>
 #include <QGridLayout>
 #include <QImage>
 #include <QLabel>
@@ -16,12 +17,14 @@ public:
     explicit SspDsp(QWidget *parent = 0);
     ~SspDsp();
 
+    RawImg *sspData;
+
 signals:
 //    void sspChangingRgb(PassYUV passYUV);
-    void sspChangingDct(int w, int h, unsigned char data[]);
+    void sspChangingDct(RawImg sspData);
 
 public slots:
-    void sspChangedByRgb(RawImg &rawImg);
+    void sspChangedByRgb(RawImg rawImg);
 //    void sspChangedByDct(PassYUV passYUV);
 };
 

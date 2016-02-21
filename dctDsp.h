@@ -1,6 +1,7 @@
 #ifndef DCTDSP_H
 #define DCTDSP_H
 
+#include <QDebug>
 #include <QGridLayout>
 #include <QImage>
 #include <QLabel>
@@ -22,7 +23,7 @@ public:
 
 public slots:
 //    void dctChangedByDct(PassYUV passYUV);
-    void dctChangedBySsp(int w, int h, unsigned char data[]);
+    void dctChangedBySsp(RawImg sspData);
 };
 
 #endif // DCTDSP_H

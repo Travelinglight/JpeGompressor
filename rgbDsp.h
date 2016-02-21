@@ -24,10 +24,8 @@ public:
     QGridLayout *mainLayout;
     RawImg *rawImg;
 
-    int ***rgbMatrix;
-
 signals:
-    void rgbChangingSsp(RawImg &rawImg);
+    void rgbChangingSsp(RawImg rawImg);
 
 //public slots:
 //    void rgbChangedBySsp(PassYUV passYUV);

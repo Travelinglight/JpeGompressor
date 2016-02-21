@@ -24,16 +24,6 @@ RgbDsp::RgbDsp(QWidget *parent) :
 }
 
 void RgbDsp::srcImageUpdate(const QString &fileName) {
-    // clear rgbMatrix
-    if (rgbMatrix != NULL) {
-        for (int i = 0; i < img->height(); i++) {
-            for (int j = 0; j < img->width(); j++)
-                delete rgbMatrix[i][j];
-            delete rgbMatrix[i];
-        }
-        delete rgbMatrix;
-    }
-
     // load image
     img->load(fileName);
     imgShow = new QLabel(this);
