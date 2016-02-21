@@ -78,10 +78,12 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
     if (event->type() == QEvent::MouseButtonPress) {
         const QMouseEvent* const currentPos = static_cast<const QMouseEvent*>(event);
         const QPoint p = currentPos->pos();
-        qDebug() << p.x() << ", " << p.y();
+
+        // find yellow block
         bX = (float)p.x() / imgShowY->width() * crtWidth / 8;
         bY = (float)p.y() / imgShowY->height() * crtHeight / 8;
 
+        // draw a yellow square
         if (tmpDataY != NULL)
             delete tmpDataY;
         tmpDataY = new unsigned char[crtWidth * crtHeight * 4];
@@ -99,6 +101,10 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
                 tmpDataY[j + 3] = dataY[j + 3];
             }
         }
+
+        // display new image
+        if (imgY != NULL)
+            delete imgY;
         imgY = new QImage(tmpDataY, crtWidth, crtHeight, QImage::Format_ARGB32);
         imgShowY = new QLabel(this);
         imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
@@ -109,6 +115,7 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
     return false;
 }
 
+/* This function is to judge if a pixel should be dyed yellow */
 bool SspDsp::isYellow(int bX, int bY, int p) {
     if ((p / crtWidth + 1 < 8 * bY) || (p / crtWidth - 1 > 8 * bY + 7))
         return false;

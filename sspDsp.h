@@ -18,7 +18,7 @@ public:
     explicit SspDsp(QWidget *parent = 0);
     ~SspDsp();
 
-    bool isYellow(int bX, int bY, int p);
+    bool isYellow(int bX, int bY, int p); // This function is to judge if a pixel should be dyed yellow
 
     unsigned char *tmpDataY;
     unsigned char *tmpDataU;
