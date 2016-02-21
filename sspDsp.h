@@ -6,6 +6,7 @@
 #include <QEvent>
 #include <QImage>
 #include <QLabel>
+#include <QMouseEvent>
 #include <QString>
 #include <QWidget>
 #include "yuvImgDsp.h"
