@@ -49,14 +49,33 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
     {
         rgb2yuv(sspData->data + i * 3);
 
-        //subsample
+        // Subsample on rows
+        int r = i/rawImg.width;
 
-        // Y
+        // U keeps even rows
+        // V keeps odd rows
+        if( r%2 == 1 )
+        {
+            sspData->data[i*3+1] = sspData->data[(i-rawImg.width)*3+1];
+            sspData->data[(i-rawImg.width)*3+1] = sspData->data[i*3+1];
+        }
+    }
 
-        // U
+    for (int i = 0, j = 0; i < rawImg.width * rawImg.height; ++i, j += 4)
+    {
+        // Subsample on columns
+        int c = i%rawImg.width;
 
-        // V
+        // U & V keeps even columns
+        if( c%2 == 1 )
+        {
+            sspData->data[i*3+1] = sspData->data[(i-1)*3+1];
+            sspData->data[i*3+2] = sspData->data[(i-1)*3+2];
+        }
+    }
 
+    for (int i = 0, j = 0; i < rawImg.width * rawImg.height; ++i, j += 4)
+    {
         dataY[j] = dataY[j+1] = dataY[j+2] = sspData->data[i*3];
         dataU[j] = dataU[j+1] = dataU[j+2] = sspData->data[i*3+1];
         dataV[j] = dataV[j+1] = dataV[j+2] = sspData->data[i*3+2];
