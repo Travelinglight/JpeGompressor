@@ -42,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(imagesDsp1->img2, SIGNAL(dctChangingSsp(RawImg&)), imagesDsp1->img1, SLOT(sspChangedByDct(RawImg&)));
     connect(imagesDsp1->img1, SIGNAL(sspChangingRgb(RawImg&)), imagesDsp1->img0, SLOT(rgbChangedBySsp(RawImg&)));
 
-    connect(imagesDsp0->img1, SIGNAL(sspChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
+    connect(imagesDsp0->img1, SIGNAL(sspChangingMatrix2(int, int)), imagesDsp0->img2, SLOT(helpSspChangingMatrix2(int, int)));
+    connect(imagesDsp0->img2, SIGNAL(dctChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
 }
 
 MainWindow::~MainWindow()

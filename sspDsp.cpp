@@ -7,9 +7,6 @@ SspDsp::SspDsp(QWidget *parent) :
     tmpDataY = NULL;
     tmpDataU = NULL;
     tmpDataV = NULL;
-    crtBlock = new int*[8];
-    for (int i = 0; i < 8; i++)
-        crtBlock[i] = new int[8];
     sspData = NULL;
 }
 
@@ -33,6 +30,10 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
         delete dataU;
     if (dataV != NULL)
         delete dataV;
+
+    // update current width and height
+    crtWidth = rawImg.width;
+    crtHeight = rawImg.height;
 
     // init sspData
     if (sspData != NULL)
@@ -148,15 +149,19 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
 void SspDsp::sspChangedByDct(RawImg &dctData)
 {
     // delete former QImage and data
-/*    delete imgY;
+    delete imgY;
     delete imgU;
-    delete imgV;*/
+    delete imgV;
     if (dataY != NULL)
         delete dataY;
     if (dataU != NULL)
         delete dataU;
     if (dataV != NULL)
         delete dataV;
+
+    // update current width and height
+    crtWidth = dctData.width;
+    crtHeight = dctData.height;
 
     // init dctData
     if (sspData != NULL)
@@ -292,10 +297,7 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
         mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
 
         // extract current block
-        for (int i = 0; i < 8; i++)
-            for (int j = 0; j < 8; j++)
-                crtBlock[i][j] = tmpDataY[(bY * 8 * crtWidth + bX * 8 * 8 + i * (crtWidth - bX * 8) + j) * 4];
-        emit sspChangingMatrix2(crtBlock);
+        emit sspChangingMatrix2(bX, bY);
     }
     return false;
 }

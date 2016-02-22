@@ -30,7 +30,7 @@ MatrixDsp::MatrixDsp(QWidget *parent) :
     vHeader->hide();
     hHeader = QMMatrix->horizontalHeader();
     hHeader->sectionResizeMode(QHeaderView::Fixed);
-    hHeader->setDefaultSectionSize(35);
+    hHeader->setDefaultSectionSize(40);
     hHeader->hide();
 
     oriMatrix = new QTableWidget(8, 8, this);
@@ -40,7 +40,7 @@ MatrixDsp::MatrixDsp(QWidget *parent) :
     vHeader->hide();
     hHeader = oriMatrix->horizontalHeader();
     hHeader->sectionResizeMode(QHeaderView::Fixed);
-    hHeader->setDefaultSectionSize(35);
+    hHeader->setDefaultSectionSize(40);
     hHeader->hide();
 
     qtzMatrix = new QTableWidget(8, 8, this);
@@ -50,7 +50,7 @@ MatrixDsp::MatrixDsp(QWidget *parent) :
     vHeader->hide();
     hHeader = qtzMatrix->horizontalHeader();
     hHeader->sectionResizeMode(QHeaderView::Fixed);
-    hHeader->setDefaultSectionSize(35);
+    hHeader->setDefaultSectionSize(40);
     hHeader->hide();
 
     // put quantization and compression ratio labels into the grid layout

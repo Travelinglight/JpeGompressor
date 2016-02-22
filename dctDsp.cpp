@@ -6,6 +6,9 @@ DctDsp::DctDsp(QWidget *parent) :
     YuvImgDsp(parent)
 {
     dctData = NULL;
+    crtBlock = new int*[8];
+    for (int i = 0; i < 8; i++)
+        crtBlock[i] = new int[8];
 }
 
 DctDsp::~DctDsp() {}
@@ -13,15 +16,19 @@ DctDsp::~DctDsp() {}
 void DctDsp::dctChangedBySsp(RawImg &sspData)
 {
     // delete former QImage and data
-/*    delete imgY;
+    delete imgY;
     delete imgU;
-    delete imgV;*/
+    delete imgV;
     if (dataY != NULL)
         delete dataY;
     if (dataU != NULL)
         delete dataU;
     if (dataV != NULL)
         delete dataV;
+
+    // update width and height
+    crtWidth = sspData.width;
+    crtHeight = sspData.height;
 
     // init dctData
     if (dctData != NULL)
@@ -161,4 +168,17 @@ void DctDsp::dctChangedByDct(RawImg &preDctData)
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
 
     emit dctChangingSsp(*dctData);
+}
+
+void DctDsp::helpSspChangingMatrix2(int bX, int bY) {
+    qDebug() << bX << ", " << bY;
+    qDebug() << crtWidth << ", " << crtHeight;
+    qDebug() << dctData->width << ", " << dctData->height;
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++) {
+            crtBlock[i][j] = dctData->data[((bY * 8 + i) * crtWidth + bX * 8 + j) * 3];
+            qDebug() << (bY * 8 + i) * crtWidth + bX * 8 + j << ": " << crtBlock[i][j];
+        }
+
+    emit dctChangingMatrix2(crtBlock);
 }
