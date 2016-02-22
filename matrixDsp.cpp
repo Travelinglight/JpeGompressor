@@ -62,6 +62,13 @@ MatrixDsp::MatrixDsp(QWidget *parent) :
     mainLayout->addWidget(oriLabel, 17, 0, 1, 1);
     mainLayout->addWidget(qtzMatrix, 18, 0, 7, 1);
     mainLayout->addWidget(qtzLabel, 25, 0, 1, 1);
+
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++) {
+            oriMatrix->setItem(i, j, new QTableWidgetItem(""));
+            qtzMatrix->setItem(i, j, new QTableWidgetItem(""));
+            QMMatrix->setItem(i, j, new QTableWidgetItem(""));
+        }
 }
 
 void MatrixDsp::matrix2ChangedBySsp(int **crtBlock) {
@@ -69,10 +76,35 @@ void MatrixDsp::matrix2ChangedBySsp(int **crtBlock) {
         for (int j = 0; j < 8; j++)
             oriMatrix->setItem(i, j, new QTableWidgetItem(QString::number(crtBlock[i][j])));
 
+    quantizationUpdate();
 }
 
 void MatrixDsp::QMUpdated(int **QM) {
     for (int i = 0; i < 8; i++)
         for (int j = 0; j < 8; j++)
             QMMatrix->setItem(i, j, new QTableWidgetItem(QString::number(QM[i][j])));
+
+    quantizationUpdate();
+}
+
+void MatrixDsp::quantizationUpdate() {
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++) {
+            if (QTableWidgetItem *item = oriMatrix->item(i, j)) {
+                if (item->text().isEmpty())
+                    return;
+                else
+                    qDebug() << item->text();
+            }
+            if (QTableWidgetItem *item = QMMatrix->item(i, j)) {
+                if (item->text().isEmpty())
+                    return;
+                else
+                    qDebug() << item->text();
+            }
+        }
+    qDebug() << "reach here";
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
+            qtzMatrix->setItem(i, j, new QTableWidgetItem(QString::number(oriMatrix->item(i, j)->text().toInt() / QMMatrix->item(i, j)->text().toInt())));
 }

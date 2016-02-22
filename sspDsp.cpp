@@ -30,6 +30,8 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
         delete dataU;
     if (dataV != NULL)
         delete dataV;
+    if (tmpDataY != NULL)
+        delete tmpDataY;
 
     // update current width and height
     crtWidth = rawImg.width;
@@ -41,10 +43,10 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
     sspData = new RawImg(rawImg);
 
     // allocate data array
-
     dataY = new unsigned char[rawImg.width * rawImg.height * 4];
     dataU = new unsigned char[rawImg.width * rawImg.height * 4];
     dataV = new unsigned char[rawImg.width * rawImg.height * 4];
+    tmpDataY = new unsigned char[crtWidth * crtHeight * 4];
 
     for (int i = 0, j = 0; i < rawImg.width * rawImg.height; ++i, j += 4)
     {
@@ -274,9 +276,8 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
             bY = (float)p.y() / imgShowY->height() * crtHeight / 8;
 
             // draw a yellow square
-            if (tmpDataY != NULL)
-                delete tmpDataY;
-            tmpDataY = new unsigned char[crtWidth * crtHeight * 4];
+            if (tmpDataY == NULL)
+                tmpDataY = new unsigned char[crtWidth * crtHeight * 4];
             for (int i = 0, j = 0; i < crtWidth * crtHeight; ++i, j += 4) {
                 if (isYellow(bX, bY, i)) {
                     tmpDataY[j] = 0;
@@ -305,7 +306,7 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
             // extract current block
             emit sspChangingMatrix2(bX, bY, 0);
         }
-        else if (obj == imgShowU) {
+        /*else if (obj == imgShowU) {
             // find yellow block
             bX = (float)p.x() / imgShowU->width() * crtWidth / 8;
             bY = (float)p.y() / imgShowU->height() * crtHeight / 8;
@@ -380,7 +381,7 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
 
             // extract current block
             emit sspChangingMatrix2(bX, bY, 2);
-        }
+        }*/
     }
     return false;
 }

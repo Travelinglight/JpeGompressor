@@ -46,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(imagesDsp0->img2, SIGNAL(dctChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
 
     imagesDsp0->srcImageUpdate("/Users/Kingston/Desktop/bird.jpg");
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[0]);
 }
 
 MainWindow::~MainWindow()

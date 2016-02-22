@@ -1,6 +1,7 @@
 #ifndef MATRIXDSP_H
 #define MATRIXDSP_H
 
+#include <QDebug>
 #include <QWidget>
 #include <QLabel>
 #include <QTableWidget>
@@ -14,6 +15,7 @@ public:
     explicit MatrixDsp(QWidget *parent = 0);
 
     void QMUpdated(int **QM);
+    void quantizationUpdate();
 
     QLabel *whichQM;
     QLabel *cmpRate;
