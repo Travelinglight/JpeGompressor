@@ -16,13 +16,14 @@ class DctDsp : public YuvImgDsp
 public:
     explicit DctDsp(QWidget *parent = 0);
     ~DctDsp();
+    RawImg *dctData;
 
-//signals:
-//    void dctChangingDct(PassYUV passYUV);
-//    void dctChangingSsp(PassYUV passYUV);
+signals:
+    void dctChangingDct(RawImg &preDctData);
+    void dctChangingSsp(RawImg &dctData);
 
 public slots:
-//    void dctChangedByDct(PassYUV passYUV);
+    void dctChangedByDct(RawImg &preDctData);
     void dctChangedBySsp(RawImg &sspData);
 };
 

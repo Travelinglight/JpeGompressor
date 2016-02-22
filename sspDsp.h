@@ -33,13 +33,13 @@ protected:
     bool eventFilter(QObject* obj, QEvent* event);
 
 signals:
-//    void sspChangingRgb(PassYUV passYUV);
+    void sspChangingRgb(RawImg &sspData);
     void sspChangingDct(RawImg &sspData);
     void sspChangingMatrix2(int **crtBlock);
 
 public slots:
     void sspChangedByRgb(RawImg &rawImg);
-//    void sspChangedByDct(PassYUV passYUV);
+    void sspChangedByDct(RawImg &dctData);
 };
 
 #endif // SSPDSP_H

@@ -38,9 +38,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // signals and slots connection
     connect(imagesDsp0->img0, SIGNAL(rgbChangingSsp(RawImg&)), imagesDsp0->img1, SLOT(sspChangedByRgb(RawImg&)));
     connect(imagesDsp0->img1, SIGNAL(sspChangingDct(RawImg&)), imagesDsp0->img2, SLOT(dctChangedBySsp(RawImg&)));
-    //connect(imagesDsp0->img2, SIGNAL(dctChangingDct(PassYUV)), imagesDsp1->img2, SLOT(dctChangedByDct(PassYUV)));
-    //connect(imagesDsp1->img2, SIGNAL(dctChangingSsp(PassYUV)), imagesDsp1->img1, SLOT(sspChangedByDct(PassYUV)));
-    //connect(imagesDsp1->img1, SIGNAL(sspChangingRgb(PassYUV)), imagesDsp1->img0, SLOT(rgbChangedBySsp(PassYUV)));
+    connect(imagesDsp0->img2, SIGNAL(dctChangingDct(RawImg&)), imagesDsp1->img2, SLOT(dctChangedByDct(RawImg&)));
+    connect(imagesDsp1->img2, SIGNAL(dctChangingSsp(RawImg&)), imagesDsp1->img1, SLOT(sspChangedByDct(RawImg&)));
+    connect(imagesDsp1->img1, SIGNAL(sspChangingRgb(RawImg&)), imagesDsp1->img0, SLOT(rgbChangedBySsp(RawImg&)));
 
     connect(imagesDsp0->img1, SIGNAL(sspChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
 }

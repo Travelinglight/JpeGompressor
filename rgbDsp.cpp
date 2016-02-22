@@ -33,44 +33,94 @@ void RgbDsp::srcImageUpdate(const QString &fileName) {
     rawImg = new RawImg(img);
     emit rgbChangingSsp(*rawImg);
 }
-/*
-void RgbDsp::rgbChangedBySsp(PassYUV &passYUV)
+
+void RgbDsp::rgbChangedBySsp(RawImg &sspData)
 {
     // delete former QImage and data
-    delete img;
+    // delete img;
+    //if (rawImg != NULL)
+    //    delete rawImg;
 
     // allocate data array
-    unsigned char *data = new unsigned char[passYUV.height * h * 4];
+    unsigned char *rgbData = new unsigned char[sspData.width * sspData.height * 4];
+    int a[3];
+    int Ybase=0;
+    int Ubase=Ybase + sspData.width*sspData.height;
+    int Vbase=Ubase + sspData.UVwidth*sspData.UVheight;
 
     // fill in data
-    for (int i = 0, j = 0; i < w * h; ++i, j += 4)
+    for (int i = 0; i < sspData.height; i++)
     {
-        data[j]     = Y[i];
-        data[j + 1] = U[i];
-        data[j + 2] = V[i];
-        data[j + 3] = ~0;       // Alpha
-        yuv2rgb((int*)&data[j]);
+        for(int j = 0; j < sspData.width; j++)
+        {
+            a[0]=sspData.data[i*sspData.width+j];
+            a[1]=sspData.data[Ubase+findU(i,j,sspData.width,sspData.height)];
+            a[2]=sspData.data[Vbase+findU(i,j,sspData.width,sspData.height)];
+
+            yuv2rgb(a);
+
+            rgbData[(i*sspData.width+j)*4]   = (unsigned char)a[0];
+            rgbData[(i*sspData.width+j)*4+1] = (unsigned char)a[1];
+            rgbData[(i*sspData.width+j)*4+2] = (unsigned char)a[2];
+            rgbData[(i*sspData.width+j)*4+3] = ~0;     //Alpha
+        }
     }
 
-
     // display YUV images
-    img = new QImage(data, w, h, QImage::Format_ARGB32);
+    img = new QImage(rgbData, sspData.width, sspData.height, QImage::Format_ARGB32);
     imgShow = new QLabel(this);
     imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShow->show();
-    mainLayout->addWidget(imgShow, 0, 0, 10, 2);
+    mainLayout->addWidget(imgShow, 0, 0, 9, 1);
+    mainLayout->addWidget(title, 9, 0, 1, 1);
 
+    delete rgbData;
 }
-*/
+
 void RgbDsp::yuv2rgb(int *a)
 {
 
-    float c[3] = {16, 128, 128};
+    float c[3];
 
-    c[0] = 1.164*(a[0]-16)                   +1.596*(a[2]-128);
+    c[2] = 1.164*(a[0]-16)                   +1.496*(a[2]-128);
     c[1] = 1.164*(a[0]-16) -0.392*(a[1]-128) -0.813*(a[2]-128);
-    c[2] = 1.164*(a[0]-16) +2.017*(a[1]-128);
+    c[0] = 1.164*(a[0]-16) +2.017*(a[1]-128);
 
     for (int i = 0; i < 3; i++)
         a[i] = c[i];
+}
+
+int RgbDsp::findU(int i, int j, int w, int h) // reverse subsample
+{
+    if(w%2==0)
+    {
+        if(h%2==0) // w is even, h is even
+        {
+            return (i/2)*(w/2)+j/2;
+        }
+        else // w is even, h is odd
+        {
+            if(j!=h)
+                return (i/2)*(w/2)+j/2;
+            else return (i/2)*(w/2)+j/2+1;
+        }
+    }
+    else
+    {
+        if(h%2==0) // w is odd, h is even
+        {
+            return (i/2)*(w/2+1)+j/2;
+        }
+        else // w is odd, h is odd
+        {
+            if(j!=h)
+                return (i/2)*(w/2+1)+j/2;
+            else return (i/2)*(w/2+1)+j/2+1;
+        }
+    }
+}
+
+int RgbDsp::findV(int i, int j, int w, int h)
+{
+
 }
