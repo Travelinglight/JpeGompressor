@@ -70,3 +70,9 @@ void MatrixDsp::matrix2ChangedBySsp(int **crtBlock) {
             oriMatrix->setItem(i, j, new QTableWidgetItem(QString::number(crtBlock[i][j])));
 
 }
+
+void MatrixDsp::QMUpdated(int **QM) {
+    for (int i = 0; i < 8; i++)
+        for (int j = 0; j < 8; j++)
+            QMMatrix->setItem(i, j, new QTableWidgetItem(QString::number(QM[i][j])));
+}

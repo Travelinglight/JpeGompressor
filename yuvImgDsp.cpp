@@ -51,6 +51,13 @@ YuvImgDsp::YuvImgDsp(QString widgetName, QWidget *parent) :
         }
 
     //init QM
+    QM = new int**[6];
+    for (int k = 0; k < 6; k++) {
+        QM[k] = new int*[8];
+        for (int i = 0; i < 8; i++)
+            QM[k][i] = new int[8];
+    }
+
     crtQM = 0;
     int a[6][8][8]={{{16,11,10,16,24,40,51,61},
                      {12,12,14,19,26,58,60,55},

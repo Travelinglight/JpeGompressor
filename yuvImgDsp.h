@@ -33,7 +33,7 @@ public:
     int crtWidth;
     int crtHeight;
     double T[8][8];
-    int QM[6][8][8];
+    int ***QM;
     int crtQM;
 };
 

@@ -12,6 +12,9 @@ class MatrixDsp : public QWidget
     Q_OBJECT
 public:
     explicit MatrixDsp(QWidget *parent = 0);
+
+    void QMUpdated(int **QM);
+
     QLabel *whichQM;
     QLabel *cmpRate;
     QLabel *qmLabel;
@@ -26,7 +29,6 @@ public:
 
 public slots:
     void matrix2ChangedBySsp(int **crtBlock);
-
 };
 
 #endif //MATRIXDSP_H

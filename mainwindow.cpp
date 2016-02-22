@@ -63,34 +63,40 @@ void MainWindow::on_actionNon_uniform_quantization_triggered() {
     imagesDsp1->img1->crtQM = 0;
     imagesDsp1->img2->crtQM = 0;
     imagesDsp1->img2->dctQuantizationAndUpdate();
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[0]);
 }
 
 void MainWindow::on_actionLow_non_uniform_quantization_triggered() {
     imagesDsp1->img1->crtQM = 1;
     imagesDsp1->img2->crtQM = 1;
     imagesDsp1->img2->dctQuantizationAndUpdate();
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[1]);
 }
 
 void MainWindow::on_actionHigh_non_uniform_quantization_triggered() {
     imagesDsp1->img1->crtQM = 2;
     imagesDsp1->img2->crtQM = 2;
     imagesDsp1->img2->dctQuantizationAndUpdate();
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[2]);
 }
 
 void MainWindow::on_actionConstant_quantization_triggered() {
     imagesDsp1->img1->crtQM = 3;
     imagesDsp1->img2->crtQM = 3;
     imagesDsp1->img2->dctQuantizationAndUpdate();
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[3]);
 }
 
 void MainWindow::on_actionLow_constant_quantization_triggered() {
     imagesDsp1->img1->crtQM = 4;
     imagesDsp1->img2->crtQM = 4;
     imagesDsp1->img2->dctQuantizationAndUpdate();
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[4]);
 }
 
 void MainWindow::on_actionHigh_constant_quantization_triggered() {
     imagesDsp1->img1->crtQM = 5;
     imagesDsp1->img2->crtQM = 5;
     imagesDsp1->img2->dctQuantizationAndUpdate();
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[5]);
 }
