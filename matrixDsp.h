@@ -14,7 +14,7 @@ class MatrixDsp : public QWidget
 public:
     explicit MatrixDsp(QWidget *parent = 0);
 
-    void QMUpdated(int **QM);
+    void QMUpdated(int **QM, QString QMtitle);
     void quantizationUpdate();
 
     QLabel *whichQM;

@@ -303,10 +303,28 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
             imgShowY->show();
             mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
 
+            if (imgU != NULL)
+                delete imgU;
+            imgU = new QImage(dataU, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowU = new QLabel(this);
+            imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowU->installEventFilter(this);
+            imgShowU->show();
+            mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
+
+            if (imgV != NULL)
+                delete imgV;
+            imgV = new QImage(dataV, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowV = new QLabel(this);
+            imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowV->installEventFilter(this);
+            imgShowV->show();
+            mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
+
             // extract current block
             emit sspChangingMatrix2(bX, bY, 0);
         }
-        /*else if (obj == imgShowU) {
+        else if (obj == imgShowU) {
             // find yellow block
             bX = (float)p.x() / imgShowU->width() * crtWidth / 8;
             bY = (float)p.y() / imgShowU->height() * crtHeight / 8;
@@ -331,15 +349,32 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
             }
 
             // display new image
+            if (imgY != NULL)
+                delete imgY;
+            imgY = new QImage(dataY, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowY = new QLabel(this);
+            imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowY->installEventFilter(this);
+            imgShowY->show();
+            mainLayout->addWidget(imgShowY, 0, 0, 10, 2); 
+
             if (imgU != NULL)
                 delete imgU;
-
             imgU = new QImage(tmpDataU, crtWidth, crtHeight, QImage::Format_ARGB32);
             imgShowU = new QLabel(this);
             imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
             imgShowU->installEventFilter(this);
             imgShowU->show();
             mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
+
+            if (imgV != NULL)
+                delete imgV;
+            imgV = new QImage(dataV, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowV = new QLabel(this);
+            imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowV->installEventFilter(this);
+            imgShowV->show();
+            mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
 
             // extract current block
             emit sspChangingMatrix2(bX, bY, 1);
@@ -369,9 +404,26 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
             }
 
             // display new image
+            if (imgY != NULL)
+                delete imgY;
+            imgY = new QImage(dataY, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowY = new QLabel(this);
+            imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowY->installEventFilter(this);
+            imgShowY->show();
+            mainLayout->addWidget(imgShowY, 0, 0, 10, 2); 
+
+            if (imgU != NULL)
+                delete imgU;
+            imgU = new QImage(dataU, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowU = new QLabel(this);
+            imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowU->installEventFilter(this);
+            imgShowU->show();
+            mainLayout->addWidget(imgShowU, 0, 2, 5, 1); 
+
             if (imgV != NULL)
                 delete imgV;
-
             imgV = new QImage(tmpDataV, crtWidth, crtHeight, QImage::Format_ARGB32);
             imgShowV = new QLabel(this);
             imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
@@ -381,7 +433,7 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
 
             // extract current block
             emit sspChangingMatrix2(bX, bY, 2);
-        }*/
+        }
     }
     return false;
 }

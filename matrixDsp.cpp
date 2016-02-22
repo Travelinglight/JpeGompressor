@@ -79,11 +79,15 @@ void MatrixDsp::matrix2ChangedBySsp(int **crtBlock) {
     quantizationUpdate();
 }
 
-void MatrixDsp::QMUpdated(int **QM) {
+void MatrixDsp::QMUpdated(int **QM, QString QMtitle) {
     for (int i = 0; i < 8; i++)
         for (int j = 0; j < 8; j++)
             QMMatrix->setItem(i, j, new QTableWidgetItem(QString::number(QM[i][j])));
 
+    delete whichQM;
+    whichQM = new QLabel(QMtitle);
+    whichQM->setAlignment(Qt::AlignCenter);
+    mainLayout->addWidget(whichQM, 0, 0, 1, 1);
     quantizationUpdate();
 }
 

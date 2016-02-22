@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(imagesDsp0->img2, SIGNAL(dctChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
 
     imagesDsp0->srcImageUpdate("/Users/Kingston/Desktop/bird.jpg");
-    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[0]);
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[0], "non-uniform quantization");
 }
 
 MainWindow::~MainWindow()
@@ -64,40 +64,40 @@ void MainWindow::on_actionNon_uniform_quantization_triggered() {
     imagesDsp1->img1->crtQM = 0;
     imagesDsp1->img2->crtQM = 0;
     imagesDsp1->img2->dctQuantizationAndUpdate();
-    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[0]);
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[0], "non-uniform quantization");
 }
 
 void MainWindow::on_actionLow_non_uniform_quantization_triggered() {
     imagesDsp1->img1->crtQM = 1;
     imagesDsp1->img2->crtQM = 1;
     imagesDsp1->img2->dctQuantizationAndUpdate();
-    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[1]);
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[1], "low non-uniform quantization");
 }
 
 void MainWindow::on_actionHigh_non_uniform_quantization_triggered() {
     imagesDsp1->img1->crtQM = 2;
     imagesDsp1->img2->crtQM = 2;
     imagesDsp1->img2->dctQuantizationAndUpdate();
-    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[2]);
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[2], "high non-uniform quantization");
 }
 
 void MainWindow::on_actionConstant_quantization_triggered() {
     imagesDsp1->img1->crtQM = 3;
     imagesDsp1->img2->crtQM = 3;
     imagesDsp1->img2->dctQuantizationAndUpdate();
-    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[3]);
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[3], "constant quantization");
 }
 
 void MainWindow::on_actionLow_constant_quantization_triggered() {
     imagesDsp1->img1->crtQM = 4;
     imagesDsp1->img2->crtQM = 4;
     imagesDsp1->img2->dctQuantizationAndUpdate();
-    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[4]);
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[4], "low constant quantization");
 }
 
 void MainWindow::on_actionHigh_constant_quantization_triggered() {
     imagesDsp1->img1->crtQM = 5;
     imagesDsp1->img2->crtQM = 5;
     imagesDsp1->img2->dctQuantizationAndUpdate();
-    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[5]);
+    matrixDsp0->QMUpdated(imagesDsp1->img1->QM[5], "high constant quantization");
 }
