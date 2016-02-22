@@ -35,7 +35,7 @@ protected:
 signals:
     void sspChangingRgb(RawImg &sspData);
     void sspChangingDct(RawImg &sspData);
-    void sspChangingMatrix2(int bX, int bY);
+    void sspChangingMatrix2(int bX, int bY, int offset);
 
 public slots:
     void sspChangedByRgb(RawImg &rawImg);

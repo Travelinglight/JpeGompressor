@@ -28,7 +28,7 @@ signals:
 public slots:
     void dctChangedByDct(RawImg &preDctData);
     void dctChangedBySsp(RawImg &sspData);
-    void helpSspChangingMatrix2(int bX, int bY);
+    void helpSspChangingMatrix2(int bX, int bY, int offset);
 };
 
 #endif // DCTDSP_H

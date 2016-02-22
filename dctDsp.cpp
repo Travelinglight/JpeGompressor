@@ -170,15 +170,10 @@ void DctDsp::dctChangedByDct(RawImg &preDctData)
     emit dctChangingSsp(*dctData);
 }
 
-void DctDsp::helpSspChangingMatrix2(int bX, int bY) {
-    qDebug() << bX << ", " << bY;
-    qDebug() << crtWidth << ", " << crtHeight;
-    qDebug() << dctData->width << ", " << dctData->height;
+void DctDsp::helpSspChangingMatrix2(int bX, int bY, int offset) {
     for (int i = 0; i < 8; i++)
-        for (int j = 0; j < 8; j++) {
-            crtBlock[i][j] = dctData->data[((bY * 8 + i) * crtWidth + bX * 8 + j) * 3];
-            qDebug() << (bY * 8 + i) * crtWidth + bX * 8 + j << ": " << crtBlock[i][j];
-        }
+        for (int j = 0; j < 8; j++)
+            crtBlock[i][j] = dctData->data[((bY * 8 + i) * crtWidth + bX * 8 + j) * 3 + offset];
 
     emit dctChangingMatrix2(crtBlock);
 }

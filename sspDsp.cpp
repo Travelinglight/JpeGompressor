@@ -134,12 +134,14 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
     imgU = new QImage(dataU, rawImg.width, rawImg.height, QImage::Format_ARGB32);
     imgShowU = new QLabel(this);
     imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    imgShowU->installEventFilter(this);
     imgShowU->show();
     mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
 
     imgV = new QImage(dataV, rawImg.width, rawImg.height, QImage::Format_ARGB32);
     imgShowV = new QLabel(this);
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    imgShowV->installEventFilter(this);
     imgShowV->show();
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
     emit sspChangingDct(*sspData);
@@ -239,18 +241,21 @@ void SspDsp::sspChangedByDct(RawImg &dctData)
     imgY = new QImage(dataY, dctData.width, dctData.height, QImage::Format_ARGB32);
     imgShowY = new QLabel(this);
     imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    imgShowY->installEventFilter(this);
     imgShowY->show();
     mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
 
     imgU = new QImage(dataU, dctData.width, dctData.height, QImage::Format_ARGB32);
     imgShowU = new QLabel(this);
     imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    imgShowU->installEventFilter(this);
     imgShowU->show();
     mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
 
     imgV = new QImage(dataV, dctData.width, dctData.height, QImage::Format_ARGB32);
     imgShowV = new QLabel(this);
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+    imgShowV->installEventFilter(this);
     imgShowV->show();
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
 
@@ -263,41 +268,119 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
         const QMouseEvent* const currentPos = static_cast<const QMouseEvent*>(event);
         const QPoint p = currentPos->pos();
 
-        // find yellow block
-        bX = (float)p.x() / imgShowY->width() * crtWidth / 8;
-        bY = (float)p.y() / imgShowY->height() * crtHeight / 8;
+        if (obj == imgShowY) {
+            // find yellow block
+            bX = (float)p.x() / imgShowY->width() * crtWidth / 8;
+            bY = (float)p.y() / imgShowY->height() * crtHeight / 8;
 
-        // draw a yellow square
-        if (tmpDataY != NULL)
-            delete tmpDataY;
-        tmpDataY = new unsigned char[crtWidth * crtHeight * 4];
-        for (int i = 0, j = 0; i < crtWidth * crtHeight; ++i, j += 4) {
-            if (isYellow(bX, bY, i)) {
-                tmpDataY[j] = 0;
-                tmpDataY[j + 1] = 255;
-                tmpDataY[j + 2] = 255;
-                tmpDataY[j + 3] = ~0;
+            // draw a yellow square
+            if (tmpDataY != NULL)
+                delete tmpDataY;
+            tmpDataY = new unsigned char[crtWidth * crtHeight * 4];
+            for (int i = 0, j = 0; i < crtWidth * crtHeight; ++i, j += 4) {
+                if (isYellow(bX, bY, i)) {
+                    tmpDataY[j] = 0;
+                    tmpDataY[j + 1] = 255;
+                    tmpDataY[j + 2] = 255;
+                    tmpDataY[j + 3] = ~0;
+                }
+                else {
+                    tmpDataY[j] = dataY[j];
+                    tmpDataY[j + 1] = dataY[j + 1];
+                    tmpDataY[j + 2] = dataY[j + 2];
+                    tmpDataY[j + 3] = dataY[j + 3];
+                }
             }
-            else {
-                tmpDataY[j] = dataY[j];
-                tmpDataY[j + 1] = dataY[j + 1];
-                tmpDataY[j + 2] = dataY[j + 2];
-                tmpDataY[j + 3] = dataY[j + 3];
-            }
+
+            // display new image
+            if (imgY != NULL)
+                delete imgY;
+            imgY = new QImage(tmpDataY, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowY = new QLabel(this);
+            imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowY->installEventFilter(this);
+            imgShowY->show();
+            mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
+
+            // extract current block
+            emit sspChangingMatrix2(bX, bY, 0);
         }
+        else if (obj == imgShowU) {
+            // find yellow block
+            bX = (float)p.x() / imgShowU->width() * crtWidth / 8;
+            bY = (float)p.y() / imgShowU->height() * crtHeight / 8;
 
-        // display new image
-        if (imgY != NULL)
-            delete imgY;
-        imgY = new QImage(tmpDataY, crtWidth, crtHeight, QImage::Format_ARGB32);
-        imgShowY = new QLabel(this);
-        imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
-        imgShowY->installEventFilter(this);
-        imgShowY->show();
-        mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
+            // draw a yellow square
+            if (tmpDataU != NULL)
+                delete tmpDataY;
+            tmpDataU = new unsigned char[crtWidth * crtHeight * 4];
+            for (int i = 0, j = 0; i < crtWidth * crtHeight; ++i, j += 4) {
+                if (isYellow(bX, bY, i)) {
+                    tmpDataU[j] = 0;
+                    tmpDataU[j + 1] = 255;
+                    tmpDataU[j + 2] = 255;
+                    tmpDataU[j + 3] = ~0;
+                }
+                else {
+                    tmpDataU[j] = dataU[j];
+                    tmpDataU[j + 1] = dataU[j + 1];
+                    tmpDataU[j + 2] = dataU[j + 2];
+                    tmpDataU[j + 3] = dataU[j + 3];
+                }
+            }
 
-        // extract current block
-        emit sspChangingMatrix2(bX, bY);
+            // display new image
+            if (imgU != NULL)
+                delete imgU;
+
+            imgU = new QImage(tmpDataU, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowU = new QLabel(this);
+            imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowU->installEventFilter(this);
+            imgShowU->show();
+            mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
+
+            // extract current block
+            emit sspChangingMatrix2(bX, bY, 1);
+        }
+        else if (obj == imgShowV) { 
+            // find yellow block
+            bX = (float)p.x() / imgShowV->width() * crtWidth / 8;
+            bY = (float)p.y() / imgShowV->height() * crtHeight / 8;
+
+            // draw a yellow square
+            if (tmpDataV != NULL)
+                delete tmpDataY;
+            tmpDataV = new unsigned char[crtWidth * crtHeight * 4];
+            for (int i = 0, j = 0; i < crtWidth * crtHeight; ++i, j += 4) {
+                if (isYellow(bX, bY, i)) {
+                    tmpDataV[j] = 0;
+                    tmpDataV[j + 1] = 255;
+                    tmpDataV[j + 2] = 255;
+                    tmpDataV[j + 3] = ~0;
+                }
+                else {
+                    tmpDataV[j] = dataV[j];
+                    tmpDataV[j + 1] = dataV[j + 1];
+                    tmpDataV[j + 2] = dataV[j + 2];
+                    tmpDataV[j + 3] = dataV[j + 3];
+                }
+            }
+
+            // display new image
+            if (imgV != NULL)
+                delete imgV;
+
+            imgV = new QImage(tmpDataV, crtWidth, crtHeight, QImage::Format_ARGB32);
+            imgShowV = new QLabel(this);
+            imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
+            imgShowV->installEventFilter(this);
+            imgShowV->show();
+            mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
+
+            // extract current block
+            emit sspChangingMatrix2(bX, bY, 2);
+        }
     }
     return false;
 }
