@@ -1,17 +1,17 @@
 #include "rgbDsp.h"
 
-RgbDsp::RgbDsp(QWidget *parent) :
+RgbDsp::RgbDsp(QString widgetName, QWidget *parent) :
     QWidget(parent)
 {
     // init img
     img = new QImage();
-    img->load("/Users/Kingston/Desktop/lynn.jpg");
+    img->load("");
     imgShow = new QLabel(this);
     imgShow->setPixmap(QPixmap::fromImage(img->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShow->show();
 
     // set up quantization and compression ratio labels
-    title = new QLabel(tr(img->isNull() ? "non-uniform" : "quantization"));
+    title = new QLabel(widgetName);
     title->setAlignment(Qt::AlignCenter);
 
     // init a grid layout

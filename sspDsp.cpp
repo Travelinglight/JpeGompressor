@@ -1,7 +1,7 @@
 #include "sspDsp.h"
 
-SspDsp::SspDsp(QWidget *parent) :
-    YuvImgDsp(parent)
+SspDsp::SspDsp(QString widgetName, QWidget *parent) :
+    YuvImgDsp(widgetName, parent)
 {
     imgShowY->installEventFilter(this);
     tmpDataY = NULL;

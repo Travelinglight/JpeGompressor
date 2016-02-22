@@ -1,12 +1,12 @@
 #include "imagesDsp.h"
 
-ImagesDsp::ImagesDsp(QWidget *parent) :
+ImagesDsp::ImagesDsp(QString img0Name, QString img1Name, QString img2Name, QWidget *parent) :
     QWidget(parent)
 {
     // init images
-    img0 = new RgbDsp();
-    img1 = new SspDsp();
-    img2 = new DctDsp();
+    img0 = new RgbDsp(img0Name);
+    img1 = new SspDsp(img1Name);
+    img2 = new DctDsp(img2Name);
 
     // init a grid layout
     mainLayout = new QGridLayout(this);

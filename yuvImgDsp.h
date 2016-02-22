@@ -11,7 +11,7 @@ class YuvImgDsp : public QWidget
 {
     Q_OBJECT
 public:
-    explicit YuvImgDsp(QWidget *parent = 0);
+    explicit YuvImgDsp(QString widgetName, QWidget *parent = 0);
     ~YuvImgDsp();
 
     void rgb2yuv(int *a);

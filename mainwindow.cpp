@@ -14,8 +14,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QHBoxLayout *hLayout = new QHBoxLayout(this);
 
     matrixDsp0 = new MatrixDsp(canvas);
-    imagesDsp0 = new ImagesDsp(canvas);
-    imagesDsp1 = new ImagesDsp(canvas);
+    imagesDsp0 = new ImagesDsp("origin image", "after 4:2:0 chroma subsampling", "after DCT", canvas);
+    imagesDsp1 = new ImagesDsp("compressed image", "after IDCT", "after quantization", canvas);
 
     QSizePolicy spCol_1(QSizePolicy::Preferred, QSizePolicy::Preferred);
     QSizePolicy spCol_2(QSizePolicy::Preferred, QSizePolicy::Preferred);

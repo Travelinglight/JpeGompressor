@@ -12,7 +12,7 @@ class RgbDsp : public QWidget
 {
     Q_OBJECT
 public:
-    explicit RgbDsp(QWidget *parent = 0);
+    explicit RgbDsp(QString widgetName, QWidget *parent = 0);
 
     void srcImageUpdate(const QString &fileName);
     void extractColor();

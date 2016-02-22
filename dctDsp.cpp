@@ -2,8 +2,8 @@
 #include <math.h>
 #include <QDebug>
 
-DctDsp::DctDsp(QWidget *parent) :
-    YuvImgDsp(parent)
+DctDsp::DctDsp(QString widgetName, QWidget *parent) :
+    YuvImgDsp(widgetName, parent)
 {
     dctData = NULL;
     crtBlock = new int*[8];

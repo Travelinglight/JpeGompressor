@@ -16,7 +16,7 @@ class ImagesDsp : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ImagesDsp(QWidget *parent = 0);
+    explicit ImagesDsp(QString img0Name, QString img1Name, QString img2Name, QWidget *parent = 0);
 
     void srcImageUpdate(const QString &fileName);
 

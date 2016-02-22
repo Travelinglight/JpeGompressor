@@ -1,22 +1,22 @@
 #include "yuvImgDsp.h"
 #include <math.h>
 
-YuvImgDsp::YuvImgDsp(QWidget *parent) :
+YuvImgDsp::YuvImgDsp(QString widgetName, QWidget *parent) :
     QWidget(parent)
 {
     // init img & img Labels
     imgY = new QImage();
-    imgY->load("/Users/Kingston/Desktop/lynn.jpg");
+    imgY->load("");
     imgShowY = new QLabel(this);
     imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
     imgU = new QImage();
-    imgU->load("/Users/Kingston/Desktop/lynn.jpg");
+    imgU->load("");
     imgShowU = new QLabel(this);
     imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
     imgV = new QImage();
-    imgV->load("/Users/Kingston/Desktop/lynn.jpg");
+    imgV->load("");
     imgShowV = new QLabel(this);
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
 
@@ -24,7 +24,7 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
     crtHeight = imgY->height();
 
     // init title
-    title = new QLabel(tr("YUV image show"));
+    title = new QLabel(widgetName);
     title->setAlignment(Qt::AlignCenter);
 
     // init a grid layout

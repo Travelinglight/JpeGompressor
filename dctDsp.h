@@ -14,7 +14,7 @@ class DctDsp : public YuvImgDsp
 {
     Q_OBJECT
 public:
-    explicit DctDsp(QWidget *parent = 0);
+    explicit DctDsp(QString widgetName, QWidget *parent = 0);
     ~DctDsp();
 
     RawImg *dctData;
