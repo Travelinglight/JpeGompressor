@@ -17,7 +17,10 @@ public:
     explicit DctDsp(QString widgetName, QWidget *parent = 0);
     ~DctDsp();
 
+    void dctQuantizationAndUpdate();
+
     RawImg *dctData;
+    RawImg *dctDataBackup;
     int **crtBlock;
 
 signals:

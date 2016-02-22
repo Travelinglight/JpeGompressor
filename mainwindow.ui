@@ -38,7 +38,7 @@
     <addaction name="actionHigh_non_uniform_quantization"/>
     <addaction name="actionConstant_quantization"/>
     <addaction name="actionLow_constant_quantization"/>
-    <addaction name="actionHigh_constant_quantizatin"/>
+    <addaction name="actionHigh_constant_quantization"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuQuantization_Matrix"/>
@@ -87,7 +87,7 @@
     <string>low constant quantization</string>
    </property>
   </action>
-  <action name="actionHigh_constant_quantizatin">
+  <action name="actionHigh_constant_quantization">
    <property name="text">
     <string>high constant quantization</string>
    </property>

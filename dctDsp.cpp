@@ -119,10 +119,11 @@ void DctDsp::dctChangedBySsp(RawImg &sspData)
 
 void DctDsp::dctChangedByDct(RawImg &preDctData)
 {
-    // delete former QImage and data
-/*    delete imgY;
-    delete imgU;
-    delete imgV;*/
+    // init dctData_backup
+    if (dctDataBackup != NULL)
+        delete dctDataBackup;
+    dctDataBackup = new RawImg(preDctData);
+
     if (dataY != NULL)
         delete dataY;
     if (dataU != NULL)
@@ -130,38 +131,45 @@ void DctDsp::dctChangedByDct(RawImg &preDctData)
     if (dataV != NULL)
         delete dataV;
 
-    // init dctData
-    if (dctData != NULL)
-        delete dctData;
-    dctData = new RawImg(preDctData);
-
     dataY = new unsigned char[preDctData.width * preDctData.height * 4];
     dataU = new unsigned char[preDctData.width * preDctData.height * 4];
     dataV = new unsigned char[preDctData.width * preDctData.height * 4];
 
+    dctQuantizationAndUpdate();
+}
+
+void DctDsp::dctQuantizationAndUpdate() {
+    if (dctData != NULL)
+        delete dctData;
+    dctData = new RawImg(*dctDataBackup);
+
     // fill in data
-    for (int i = 0, j = 0; i < preDctData.width * preDctData.height; ++i, j += 4)
-    {
-        dataY[j] = dataY[j + 1] = dataY[j + 2] = dctData->data[i*3]   = dctData->data[i*3]  /(QM[(i/preDctData.width)%8][(i%preDctData.width)%8]);
-        dataU[j] = dataU[j + 1] = dataU[j + 2] = dctData->data[i*3+1] = dctData->data[i*3+1]/(QM[(i/preDctData.width)%8][(i%preDctData.width)%8]);;
-        dataV[j] = dataV[j + 1] = dataV[j + 2] = dctData->data[i*3+2] = dctData->data[i*3+2]/(QM[(i/preDctData.width)%8][(i%preDctData.width)%8]);;
+    for (int i = 0, j = 0; i < dctData->width * dctData->height; ++i, j += 4) {
+        dataY[j] = dataY[j + 1] = dataY[j + 2] = dctData->data[i*3]   = dctData->data[i*3]   / (QM[crtQM][(i / dctData->width) % 8][(i % dctData->width) % 8]);
+        dataU[j] = dataU[j + 1] = dataU[j + 2] = dctData->data[i*3+1] = dctData->data[i*3+1] / (QM[crtQM][(i / dctData->width) % 8][(i % dctData->width) % 8]);
+        dataV[j] = dataV[j + 1] = dataV[j + 2] = dctData->data[i*3+2] = dctData->data[i*3+2] / (QM[crtQM][(i / dctData->width) % 8][(i % dctData->width) % 8]);
         dataY[j + 3] = dataU[j+3] = dataV[j+3] = ~0;       // Alpha
     }
 
+    // delete former QImage and data
+    delete imgY;
+    delete imgU;
+    delete imgV;
+
     // display YUV images
-    imgY = new QImage(dataY, preDctData.width, preDctData.height, QImage::Format_ARGB32);
+    imgY = new QImage(dataY, dctData->width, dctData->height, QImage::Format_ARGB32);
     imgShowY = new QLabel(this);
     imgShowY->setPixmap(QPixmap::fromImage(imgY->scaled(300, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowY->show();
     mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
 
-    imgU = new QImage(dataU, preDctData.width, preDctData.height, QImage::Format_ARGB32);
+    imgU = new QImage(dataU, dctData->width, dctData->height, QImage::Format_ARGB32);
     imgShowU = new QLabel(this);
     imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowU->show();
     mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
 
-    imgV = new QImage(dataV, preDctData.width, preDctData.height, QImage::Format_ARGB32);
+    imgV = new QImage(dataV, dctData->width, dctData->height, QImage::Format_ARGB32);
     imgShowV = new QLabel(this);
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowV->show();

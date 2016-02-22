@@ -172,9 +172,9 @@ void SspDsp::sspChangedByDct(RawImg &dctData)
 
     for (int i = 0, j = 0; i < dctData.width * dctData.height; ++i, j += 4)
     {
-        sspData->data[i*3]   *= QM[(i/dctData.width)%8][(i%dctData.width)%8];
-        sspData->data[i*3+1] *= QM[(i/dctData.width)%8][(i%dctData.width)%8];;
-        sspData->data[i*3+2] *= QM[(i/dctData.width)%8][(i%dctData.width)%8];;
+        sspData->data[i*3]   *= QM[crtQM][(i/dctData.width)%8][(i%dctData.width)%8];
+        sspData->data[i*3+1] *= QM[crtQM][(i/dctData.width)%8][(i%dctData.width)%8];;
+        sspData->data[i*3+2] *= QM[crtQM][(i/dctData.width)%8][(i%dctData.width)%8];;
     }
 
     // idct

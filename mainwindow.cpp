@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(imagesDsp0->img1, SIGNAL(sspChangingMatrix2(int, int, int)), imagesDsp0->img2, SLOT(helpSspChangingMatrix2(int, int, int)));
     connect(imagesDsp0->img2, SIGNAL(dctChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
+
+    imagesDsp0->srcImageUpdate("/Users/Kingston/Desktop/bird.jpg");
 }
 
 MainWindow::~MainWindow()
@@ -55,4 +57,40 @@ void MainWindow::on_actionOpen_File_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Choose File"), "", "Image File (*.jpg)");
     imagesDsp0->srcImageUpdate(fileName);
+}
+
+void MainWindow::on_actionNon_uniform_quantization_triggered() {
+    imagesDsp1->img1->crtQM = 0;
+    imagesDsp1->img2->crtQM = 0;
+    imagesDsp1->img2->dctQuantizationAndUpdate();
+}
+
+void MainWindow::on_actionLow_non_uniform_quantization_triggered() {
+    imagesDsp1->img1->crtQM = 1;
+    imagesDsp1->img2->crtQM = 1;
+    imagesDsp1->img2->dctQuantizationAndUpdate();
+}
+
+void MainWindow::on_actionHigh_non_uniform_quantization_triggered() {
+    imagesDsp1->img1->crtQM = 2;
+    imagesDsp1->img2->crtQM = 2;
+    imagesDsp1->img2->dctQuantizationAndUpdate();
+}
+
+void MainWindow::on_actionConstant_quantization_triggered() {
+    imagesDsp1->img1->crtQM = 3;
+    imagesDsp1->img2->crtQM = 3;
+    imagesDsp1->img2->dctQuantizationAndUpdate();
+}
+
+void MainWindow::on_actionLow_constant_quantization_triggered() {
+    imagesDsp1->img1->crtQM = 4;
+    imagesDsp1->img2->crtQM = 4;
+    imagesDsp1->img2->dctQuantizationAndUpdate();
+}
+
+void MainWindow::on_actionHigh_constant_quantization_triggered() {
+    imagesDsp1->img1->crtQM = 5;
+    imagesDsp1->img2->crtQM = 5;
+    imagesDsp1->img2->dctQuantizationAndUpdate();
 }
