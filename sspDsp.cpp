@@ -163,6 +163,60 @@ void SspDsp::sspChangedByDct(RawImg &dctData)
         delete sspData;
     sspData = new RawImg(dctData);
 
+    for (int i = 0, j = 0; i < dctData.width * dctData.height; ++i, j += 4)
+    {
+        sspData->data[i*3]   *= QM[(i/dctData.width)%8][(i%dctData.width)%8];
+        sspData->data[i*3+1] *= QM[(i/dctData.width)%8][(i%dctData.width)%8];;
+        sspData->data[i*3+2] *= QM[(i/dctData.width)%8][(i%dctData.width)%8];;
+    }
+
+    // idct
+    for(int i = 0; i<dctData.width; i += 8)
+    {
+        for(int j = 0; j<dctData.height; j += 8)
+        {
+            //qDebug() << i << ", " << j;
+            int w = 8, h = 8;
+            if( i+7 >= dctData.width)
+                w = dctData.width - i;
+            if( j+7 >= dctData.height)
+                h = dctData.height - j;
+
+            double **f;
+            f = new double*[8];
+            for(int u = 0; u < 8; u++)
+              f[u] = new double[8];
+
+            for(int inc = 0; inc<3; inc++)
+            {
+                for(int u = 0; u<w; u++)
+                    for(int v = 0; v<h; v++)
+                        f[u][v] = sspData->data[((j+v)*dctData.width+(i+u))*3+inc];
+                // fill in the rest
+                for(int u=w; u<8; u++)
+                    for(int v = 0; v<h; v++)
+                        f[u][v] = f[w-1][v];
+                for(int v=h; v<8; v++)
+                    for(int u = 0; u<h; u++)
+                        f[u][v] = f[u][h-1];
+                for(int u=w; u<8; u++)
+                    for(int v=h; v<8; v++)
+                        f[u][v] = f[w-1][h-1];
+
+                idct(f);
+
+                for(int u = 0; u<w; u++)
+                    for(int v = 0; v<h; v++)
+                        sspData->data[((j+v)*dctData.width+(i+u))*3+inc] = (int)f[u][v]+128;
+            }
+
+            for(int u = 0; u < 8; u++ )
+              delete[]f[u];
+            delete []f;
+        }
+
+    }
+
     dataY = new unsigned char[dctData.width * dctData.height * 4];
     dataU = new unsigned char[dctData.width * dctData.height * 4];
     dataV = new unsigned char[dctData.width * dctData.height * 4];

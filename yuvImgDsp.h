@@ -15,6 +15,8 @@ public:
     ~YuvImgDsp();
 
     void rgb2yuv(int *a);
+    void dct(double **f);
+    void idct(double **F);
 
     QLabel *title;
     QLabel *imgShowY;
@@ -30,6 +32,8 @@ public:
     unsigned char *dataV;
     int crtWidth;
     int crtHeight;
+    double T[8][8];
+    int QM[8][8];
 };
 
 #endif // YUVIMGDSP_H

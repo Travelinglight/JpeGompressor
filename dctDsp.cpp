@@ -33,43 +33,44 @@ void DctDsp::dctChangedBySsp(RawImg &sspData)
     {
         for(int j = 0; j<sspData.height; j += 8)
         {
-            qDebug() << i << ", " << j;
+            //qDebug() << i << ", " << j;
             int w = 8, h = 8;
             if( i+7 >= sspData.width)
                 w = sspData.width - i;
             if( j+7 >= sspData.height)
                 h = sspData.height - j;
 
-            double F[8][8], f[8][8];
+            double **f;
+            f = new double*[8];
+            for(int u = 0; u < 8; u++)
+              f[u] = new double[8];
+
             for(int inc = 0; inc<3; inc++)
             {
                 for(int u = 0; u<w; u++)
                     for(int v = 0; v<h; v++)
                         f[u][v] = dctData->data[((j+v)*sspData.width+(i+u))*3+inc] - 128;
-
-
-                for(int u = 0; u<w; u++)
-                {
-                    //qDebug() << endl;
+                // fill in the rest
+                for(int u=w; u<8; u++)
                     for(int v = 0; v<h; v++)
-                    {
-                        F[u][v]=0;
-                        for(int p=0; p<w; p++)
-                            for(int q=0; q<h; q++)
-                                F[u][v] += cos( (2.0*p+1.0)*u*acos(-1.0) / (2.0*w) )*cos( (2.0*q+1.0)*v*acos(-1.0) / (2.0*h) )*f[p][q];
-                        if(u==0 && v==0)
-                            F[u][v] *= 1.0/sqrt(1.0*w*h);
-                        else if(u==0 || v==0)
-                            F[u][v] *= sqrt(2.0)/sqrt(1.0*w*h);
-                        else F[u][v] *= 2.0/sqrt(1.0*w*h);
-                        qDebug() << (int) F[u][v] << ' ';
-                    }
-                }
+                        f[u][v] = f[w-1][v];
+                for(int v=h; v<8; v++)
+                    for(int u = 0; u<h; u++)
+                        f[u][v] = f[u][h-1];
+                for(int u=w; u<8; u++)
+                    for(int v=h; v<8; v++)
+                        f[u][v] = f[w-1][h-1];
+
+                dct(f);
 
                 for(int u = 0; u<w; u++)
                     for(int v = 0; v<h; v++)
-                        dctData->data[((j+v)*sspData.width+(i+u))*3+inc] = (int)F[u][v];
+                        dctData->data[((j+v)*sspData.width+(i+u))*3+inc] = (int)f[u][v];
             }
+
+            for(int u = 0; u < 8; u++ )
+              delete[]f[u];
+            delete []f;
         }
 
     }
@@ -134,9 +135,9 @@ void DctDsp::dctChangedByDct(RawImg &preDctData)
     // fill in data
     for (int i = 0, j = 0; i < preDctData.width * preDctData.height; ++i, j += 4)
     {
-        dataY[j] = dataY[j + 1] = dataY[j + 2] = dctData->data[i*3];
-        dataU[j] = dataU[j + 1] = dataU[j + 2] = dctData->data[i*3+1];
-        dataV[j] = dataV[j + 1] = dataV[j + 2] = dctData->data[i*3+2];
+        dataY[j] = dataY[j + 1] = dataY[j + 2] = dctData->data[i*3]   = dctData->data[i*3]  /(QM[(i/preDctData.width)%8][(i%preDctData.width)%8]);
+        dataU[j] = dataU[j + 1] = dataU[j + 2] = dctData->data[i*3+1] = dctData->data[i*3+1]/(QM[(i/preDctData.width)%8][(i%preDctData.width)%8]);;
+        dataV[j] = dataV[j + 1] = dataV[j + 2] = dctData->data[i*3+2] = dctData->data[i*3+2]/(QM[(i/preDctData.width)%8][(i%preDctData.width)%8]);;
         dataY[j + 3] = dataU[j+3] = dataV[j+3] = ~0;       // Alpha
     }
 

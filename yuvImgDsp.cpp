@@ -1,4 +1,5 @@
 #include "yuvImgDsp.h"
+#include <math.h>
 
 YuvImgDsp::YuvImgDsp(QWidget *parent) :
     QWidget(parent)
@@ -40,6 +41,27 @@ YuvImgDsp::YuvImgDsp(QWidget *parent) :
     dataY = NULL;
     dataU = NULL;
     dataV = NULL;
+
+    // init T for dct/idct
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+        {
+            if(i==0) T[i][j]=0.5/sqrt(2.0);
+            else T[i][j]=0.5*cos((2.0*j+1.0)*i*acos(-1.0)/16);
+        }
+
+    //init QM
+    int a[8][8]={{16,11,10,16,24,40,51,61},
+                 {12,12,14,19,26,58,60,55},
+                 {14,13,16,24,40,57,69,56},
+                 {14,17,22,29,51,87,80,62},
+                 {18,22,37,56,68,109,103,77},
+                 {24,35,55,64,81,104,113,92},
+                 {49,64,78,87,103,121,120,101},
+                 {72,92,95,98,112,100,103,99}};
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            QM[i][j] = a[i][j];
 }
 
 YuvImgDsp::~YuvImgDsp() {}
@@ -64,3 +86,40 @@ void YuvImgDsp::rgb2yuv(int *a)
         a[i] = c[i];
 }
 
+void YuvImgDsp::dct(double **f)
+{
+    int F1[8][8], F2[8][8];
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            F1[i][j] = F2[i][j] = 0;
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            for(int k=0; k<8; k++)
+                F1[i][j] += T[i][k]*f[k][j];
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            for(int k=0; k<8; k++)
+                F2[i][j] += F1[i][k]*T[j][k];
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            f[i][j] = F2[i][j];
+}
+
+void YuvImgDsp::idct(double **F)
+{
+    int f1[8][8], f2[8][8];
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            f1[i][j] = f2[i][j] = 0;
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            for(int k=0; k<8; k++)
+                f1[i][j] += T[k][i]*F[k][j];
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            for(int k=0; k<8; k++)
+                f2[i][j] += f1[i][k]*T[k][j];
+    for(int i=0; i<8; i++)
+        for(int j=0; j<8; j++)
+            F[i][j] = f2[i][j];
+}
