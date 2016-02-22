@@ -1,4 +1,6 @@
 #include "dctDsp.h"
+#include <math.h>
+#include <QDebug>
 
 DctDsp::DctDsp(QWidget *parent) :
     YuvImgDsp(parent)
@@ -25,6 +27,52 @@ void DctDsp::dctChangedBySsp(RawImg &sspData)
     if (dctData != NULL)
         delete dctData;
     dctData = new RawImg(sspData);
+
+    // dct
+    for(int i = 0; i<sspData.width; i += 8)
+    {
+        for(int j = 0; j<sspData.height; j += 8)
+        {
+            qDebug() << i << ", " << j;
+            int w = 8, h = 8;
+            if( i+7 >= sspData.width)
+                w = sspData.width - i;
+            if( j+7 >= sspData.height)
+                h = sspData.height - j;
+
+            double F[8][8], f[8][8];
+            for(int inc = 0; inc<3; inc++)
+            {
+                for(int u = 0; u<w; u++)
+                    for(int v = 0; v<h; v++)
+                        f[u][v] = dctData->data[((j+v)*sspData.width+(i+u))*3+inc] - 128;
+
+
+                for(int u = 0; u<w; u++)
+                {
+                    //qDebug() << endl;
+                    for(int v = 0; v<h; v++)
+                    {
+                        F[u][v]=0;
+                        for(int p=0; p<w; p++)
+                            for(int q=0; q<h; q++)
+                                F[u][v] += cos( (2.0*p+1.0)*u*acos(-1.0) / (2.0*w) )*cos( (2.0*q+1.0)*v*acos(-1.0) / (2.0*h) )*f[p][q];
+                        if(u==0 && v==0)
+                            F[u][v] *= 1.0/sqrt(1.0*w*h);
+                        else if(u==0 || v==0)
+                            F[u][v] *= sqrt(2.0)/sqrt(1.0*w*h);
+                        else F[u][v] *= 2.0/sqrt(1.0*w*h);
+                        qDebug() << (int) F[u][v] << ' ';
+                    }
+                }
+
+                for(int u = 0; u<w; u++)
+                    for(int v = 0; v<h; v++)
+                        dctData->data[((j+v)*sspData.width+(i+u))*3+inc] = (int)F[u][v];
+            }
+        }
+
+    }
 
     dataY = new unsigned char[sspData.width * sspData.height * 4];
     dataU = new unsigned char[sspData.width * sspData.height * 4];
