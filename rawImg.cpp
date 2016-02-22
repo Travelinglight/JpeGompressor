@@ -31,17 +31,6 @@ RawImg::RawImg(RawImg &model) {
     }
 }
 
-RawImg::RawImg(int w, int h, int UVw, int UVh)
-{
-    height = h;
-    width = w;
-    UVwidth = UVw;
-    UVheight = UVh;
-    data = new int[h*w + UVw*UVh*2];
-    //for(int i=0; i<h*w + UVw*UVh*2; i++)
-    //    data[i] = 0;
-}
-
 RawImg::~RawImg() {
     if (data != NULL)
         delete data;

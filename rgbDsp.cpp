@@ -44,26 +44,20 @@ void RgbDsp::rgbChangedBySsp(RawImg &sspData)
     // allocate data array
     unsigned char *rgbData = new unsigned char[sspData.width * sspData.height * 4];
     int a[3];
-    int Ybase=0;
-    int Ubase=Ybase + sspData.width*sspData.height;
-    int Vbase=Ubase + sspData.UVwidth*sspData.UVheight;
 
     // fill in data
-    for (int i = 0; i < sspData.height; i++)
+    for (int i = 0; i < sspData.height*sspData.width; i++)
     {
-        for(int j = 0; j < sspData.width; j++)
-        {
-            a[0]=sspData.data[i*sspData.width+j];
-            a[1]=sspData.data[Ubase+findU(i,j,sspData.width,sspData.height)];
-            a[2]=sspData.data[Vbase+findU(i,j,sspData.width,sspData.height)];
+        a[0]=sspData.data[i*3];
+        a[1]=sspData.data[i*3+1];
+        a[2]=sspData.data[i*3+2];
 
-            yuv2rgb(a);
+        yuv2rgb(a);
 
-            rgbData[(i*sspData.width+j)*4]   = (unsigned char)a[0];
-            rgbData[(i*sspData.width+j)*4+1] = (unsigned char)a[1];
-            rgbData[(i*sspData.width+j)*4+2] = (unsigned char)a[2];
-            rgbData[(i*sspData.width+j)*4+3] = ~0;     //Alpha
-        }
+        rgbData[i*4]   = (unsigned char)a[0];
+        rgbData[i*4+1] = (unsigned char)a[1];
+        rgbData[i*4+2] = (unsigned char)a[2];
+        rgbData[i*4+3] = ~0;     //Alpha
     }
 
     // display YUV images
@@ -89,7 +83,7 @@ void RgbDsp::yuv2rgb(int *a)
     for (int i = 0; i < 3; i++)
         a[i] = c[i];
 }
-
+/*
 int RgbDsp::findU(int i, int j, int w, int h) // reverse subsample
 {
     if(w%2==0)
@@ -124,3 +118,4 @@ int RgbDsp::findV(int i, int j, int w, int h)
 {
 
 }
+*/

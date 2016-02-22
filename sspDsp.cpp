@@ -37,27 +37,32 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
     // init sspData
     if (sspData != NULL)
         delete sspData;
-    //sspData = new RawImg(rawImg);
+    sspData = new RawImg(rawImg);
 
     // allocate data array
 
-    int UVwidth = (rawImg.width+1)/2;
-    int UVheight = (rawImg.height+1)/2;
-    int Ybase = 0;
-    int Ubase = Ybase + rawImg.width*rawImg.height;
-    int Vbase = Ubase + UVwidth*UVheight;
-
-    sspData = new RawImg(rawImg.width, rawImg.height, UVwidth, UVheight);
-
     dataY = new unsigned char[rawImg.width * rawImg.height * 4];
-    dataU = new unsigned char[UVwidth * UVheight * 4];
-    dataV = new unsigned char[UVwidth * UVheight * 4];
-
-    RawImg *yuvData = new RawImg(rawImg);
+    dataU = new unsigned char[rawImg.width * rawImg.height * 4];
+    dataV = new unsigned char[rawImg.width * rawImg.height * 4];
 
     for (int i = 0, j = 0; i < rawImg.width * rawImg.height; ++i, j += 4)
-        rgb2yuv(yuvData->data + i * 3);
+    {
+        rgb2yuv(sspData->data + i * 3);
 
+        //subsample
+
+        // Y
+
+        // U
+
+        // V
+
+        dataY[j] = dataY[j+1] = dataY[j+2] = sspData->data[i*3];
+        dataU[j] = dataU[j+1] = dataU[j+2] = sspData->data[i*3+1];
+        dataV[j] = dataV[j+1] = dataV[j+2] = sspData->data[i*3+2];
+        dataY[j + 3] = dataU[j + 3] = dataV[j + 3] = ~0;       // Alpha
+    }
+/*
     // subsample
     // U / Cb
     for(int i=0, k=0; i<rawImg.height; i+=2)
@@ -97,7 +102,7 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
         sspData->data[i+Vbase]=dataV[i*4];
 
     delete yuvData;
-
+*/
     // display YUV images
     imgY = new QImage(dataY, rawImg.width, rawImg.height, QImage::Format_ARGB32);
     imgShowY = new QLabel(this);
@@ -106,19 +111,20 @@ void SspDsp::sspChangedByRgb(RawImg &rawImg)
     imgShowY->show();
     mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
 
-    imgU = new QImage(dataU, UVwidth, UVheight, QImage::Format_ARGB32);
+    imgU = new QImage(dataU, rawImg.width, rawImg.height, QImage::Format_ARGB32);
     imgShowU = new QLabel(this);
     imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowU->show();
     mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
 
-    imgV = new QImage(dataV, UVwidth, UVheight, QImage::Format_ARGB32);
+    imgV = new QImage(dataV, rawImg.width, rawImg.height, QImage::Format_ARGB32);
     imgShowV = new QLabel(this);
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowV->show();
     mainLayout->addWidget(imgShowV, 5, 2, 5, 1);
     emit sspChangingDct(*sspData);
 }
+
 
 void SspDsp::sspChangedByDct(RawImg &dctData)
 {
@@ -136,30 +142,19 @@ void SspDsp::sspChangedByDct(RawImg &dctData)
     // init dctData
     if (sspData != NULL)
         delete sspData;
-
-    int Ybase=0;
-    int Ubase=Ybase + dctData.width*dctData.height;
-    int Vbase=Ubase + dctData.UVwidth*dctData.UVheight;
-
-    sspData = new RawImg(dctData.width, dctData.height, dctData.UVwidth, dctData.UVheight);
-    for(int i=dctData.width*dctData.height+2*dctData.UVheight*dctData.width-1; i>=0; i--)
-        sspData->data[i] = dctData.data[i];
+    sspData = new RawImg(dctData);
 
     dataY = new unsigned char[dctData.width * dctData.height * 4];
-    dataU = new unsigned char[dctData.UVwidth * dctData.UVheight * 4];
-    dataV = new unsigned char[dctData.UVwidth * dctData.UVheight * 4];
+    dataU = new unsigned char[dctData.width * dctData.height * 4];
+    dataV = new unsigned char[dctData.width * dctData.height * 4];
 
     // fill in data
     for (int i = 0, j = 0; i < dctData.width * dctData.height; ++i, j += 4)
     {
-        dataY[j] = dataY[j + 1] = dataY[j + 2] = sspData->data[i];
-        dataY[j + 3] = ~0;       // Alpha
-    }
-    for (int i = 0, j = 0; i < dctData.UVwidth * dctData.UVheight; ++i, j += 4)
-    {
-        dataU[j] = dataU[j + 1] = dataU[j + 2] = sspData->data[i+Ubase];
-        dataV[j] = dataV[j + 1] = dataV[j + 2] = sspData->data[i+Vbase];
-        dataU[j + 3] = dataV[j + 3] = ~0;       // Alpha
+        dataY[j] = dataY[j + 1] = dataY[j + 2] = sspData->data[i*3];
+        dataU[j] = dataU[j + 1] = dataU[j + 2] = sspData->data[i*3+1];
+        dataV[j] = dataV[j + 1] = dataV[j + 2] = sspData->data[i*3+2];
+        dataY[j + 3] = dataU[j+3] = dataV[j+3] = ~0;       // Alpha
     }
 
     // display YUV images
@@ -169,13 +164,13 @@ void SspDsp::sspChangedByDct(RawImg &dctData)
     imgShowY->show();
     mainLayout->addWidget(imgShowY, 0, 0, 10, 2);
 
-    imgU = new QImage(dataU, dctData.UVwidth, dctData.UVheight, QImage::Format_ARGB32);
+    imgU = new QImage(dataU, dctData.width, dctData.height, QImage::Format_ARGB32);
     imgShowU = new QLabel(this);
     imgShowU->setPixmap(QPixmap::fromImage(imgU->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowU->show();
     mainLayout->addWidget(imgShowU, 0, 2, 5, 1);
 
-    imgV = new QImage(dataV, dctData.UVwidth, dctData.UVheight, QImage::Format_ARGB32);
+    imgV = new QImage(dataV, dctData.width, dctData.height, QImage::Format_ARGB32);
     imgShowV = new QLabel(this);
     imgShowV->setPixmap(QPixmap::fromImage(imgV->scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation)));
     imgShowV->show();
