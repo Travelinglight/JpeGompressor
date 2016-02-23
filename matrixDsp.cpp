@@ -9,7 +9,7 @@ MatrixDsp::MatrixDsp(QWidget *parent) :
     // set up quantization and compression ratio labels
     whichQM = new QLabel(tr("non-uniform quantization"));
     whichQM->setAlignment(Qt::AlignCenter);
-    cmpRate = new QLabel(tr("compression ratio: 26.54"));
+    cmpRate = new QLabel(tr("compression ratio: unavailable"));
     cmpRate->setAlignment(Qt::AlignCenter);
     qmLabel = new QLabel(tr("Quantization Table"));
     qmLabel->setAlignment(Qt::AlignCenter);
