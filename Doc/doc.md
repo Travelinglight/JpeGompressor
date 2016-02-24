@@ -27,7 +27,7 @@ On the other hand, when displaying a JPEG encoded image, we need two steps to in
 
 The JpeGompressor project shows 6 images for an input file: the original image and each result of the above five steps. A preview picture is included as below:
 
-<img src="https://github.com/Travelinglight/JpeGompressor/blob/master/Preview.jpg?raw=true" width=600px>
+<img src="Preview.jpg" width=600px>
 
 ## 2 Features
 * JpeGompressor allows users to choose an input file from menu bar: File > Open File
@@ -37,7 +37,7 @@ The JpeGompressor project shows 6 images for an input file: the original image a
 ## 3 Implementation
 Since object-oriented language is applied, the classes doing the display as well as data process are defined as below:
 <p align="center">
-<img src="codeStructureNew.png" width=450px>
+<img src="codeStructure.png" width=450px>
 <br>Class Defination
 </p>
 Image data are transmitted and processed among classes through the path shown below. Each time an new image file is opened or the quantization matrix is changed, the fellow process will be triggered to generate a new compressed image(Qt signals/slots mechanism is applied here).
@@ -45,6 +45,7 @@ Image data are transmitted and processed among classes through the path shown be
 <img src="process.png" width=300px>
 <br>Flow Chart
 </p>
+The data transmission is achieved with the Signal-Slot mechanism provided by Qt. For example, when RgbDsp finishes loading a new image, it emit a signal along with the RGB data as it's parameter. Meanwhile, in SspDsp there's a slot function with the same arguments to do subsampling. In the constructor of MainWindow class, we wrote a connect() command to connect the signal and the slot, so that the slot in SspDsp could receive the signal emitted by RgbDsp, do subsampling, and emit a new signal to DctDsp class for further compression.
 ### 3.1 RBG & YUV(YCbCr) Convertion
 The RGB information of an image is read and converted to the YUV mode.
 At last, the generated YUV image will be converted to display the compressed RGB image.
@@ -56,6 +57,7 @@ At last, the generated YUV image will be converted to display the compressed RGB
     Y  =  0.257*R +0.504*G +0.098*B + 16
     Cb = -0.148*R -0.291*G +0.439*B +128
     Cr =  0.439*R -0.368*G -0.071*B +128
+
 ### 3.2 4:2:0 Subsampling
 All Y data are reserved. For each 2*2 grid, the Cb data in the first row and first column are reserved and the Cr data in the second row and first column are reserved. Thus we get a 8-bit grayscale image of Y of the original size and those of Cr and Cb of the smaller size(width:original width=height:original height=1:2).
 
@@ -66,3 +68,4 @@ All Y data are reserved. For each 2*2 grid, the Cb data in the first row and fir
 F[i,j]=f[i,j]/qm[i,j], F contains the data of the image after quantization, f contains those before quantization and qm are the data in the Quantization Matrix.
 
 ### 3.5 Inspecting 8x8 blocks
+When clicking on subsampled YUV image, the 8x8 block of data after DCT transformation would be displayed in the matrix, as well as the data after quantization. This feature was implemented by the event handling mechanism in Qt. Clicking on the image triggers a mousePress event, which is detected by an eventFilter function in SspDsp class. In eventFilter function, the mouse press location was obtained. The clicked 8x8 block is picked out and the pixels around this block are set to yellow. Then, the new image with a yellow square is reload and that 8x8 block data is signaled to MatrixDsp class for display.
