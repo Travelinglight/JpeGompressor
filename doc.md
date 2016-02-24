@@ -27,9 +27,13 @@ On the other hand, when displaying a JPEG encoded image, we need two steps to in
 
 The JpeGompressor project shows 6 images for an input file: the original image and each result of the above five steps. 
 
+![Alt desc](https://github.com/Travelinglight/JpeGompressor/blob/master/codeStructure.png?raw=true)
+
 ### Features
-1. JpeGompressor allows users to choose an input file from menu bar: File > Open File
-2. JpeGompressor allows users to choose from different quantization matrices from menu bar: Quantization Matrix. The chosen matrix is displayed in a table and will be used in the quantization.
-3. JpeGompressor allows users to pick up a 8x8 pixel block in the subsampling result to see the DCT result of that block as well as the quantization result.
+* JpeGompressor allows users to choose an input file from menu bar: File > Open File
+* JpeGompressor allows users to choose from different quantization matrices from menu bar: Quantization Matrix. The chosen matrix is displayed in a table and will be used in the quantization.
+* JpeGompressor allows users to pick up a 8x8 pixel block in the subsampling result to see the DCT result of that block as well as the quantization result.
 
 ### Implementation
+The code structure is shown as below:
+![Alt desc](https://github.com/Travelinglight/JpeGompressor/blob/master/codeStructure.png?raw=true)
