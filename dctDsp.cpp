@@ -40,7 +40,6 @@ void DctDsp::dctChangedBySsp(RawImg &sspData)
     {
         for(int j = 0; j<sspData.height; j += 8)
         {
-            //qDebug() << i << ", " << j;
             int w = 8, h = 8;
             if( i+7 >= sspData.width)
                 w = sspData.width - i;

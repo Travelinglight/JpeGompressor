@@ -97,14 +97,10 @@ void MatrixDsp::quantizationUpdate() {
             if (QTableWidgetItem *item = oriMatrix->item(i, j)) {
                 if (item->text().isEmpty())
                     return;
-                else
-                    qDebug() << item->text();
             }
             if (QTableWidgetItem *item = QMMatrix->item(i, j)) {
                 if (item->text().isEmpty())
                     return;
-                else
-                    qDebug() << item->text();
             }
         }
     qDebug() << "reach here";

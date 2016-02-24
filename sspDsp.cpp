@@ -184,7 +184,6 @@ void SspDsp::sspChangedByDct(RawImg &dctData)
     {
         for(int j = 0; j<dctData.height; j += 8)
         {
-            //qDebug() << i << ", " << j;
             int w = 8, h = 8;
             if( i+7 >= dctData.width)
                 w = dctData.width - i;
@@ -331,7 +330,7 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
 
             // draw a yellow square
             if (tmpDataU != NULL)
-                delete tmpDataY;
+                delete tmpDataU;
             tmpDataU = new unsigned char[crtWidth * crtHeight * 4];
             for (int i = 0, j = 0; i < crtWidth * crtHeight; ++i, j += 4) {
                 if (isYellow(bX, bY, i)) {
@@ -386,7 +385,7 @@ bool SspDsp::eventFilter(QObject* obj, QEvent* event) {
 
             // draw a yellow square
             if (tmpDataV != NULL)
-                delete tmpDataY;
+                delete tmpDataV;
             tmpDataV = new unsigned char[crtWidth * crtHeight * 4];
             for (int i = 0, j = 0; i < crtWidth * crtHeight; ++i, j += 4) {
                 if (isYellow(bX, bY, i)) {
