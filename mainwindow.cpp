@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(imagesDsp0->img1, SIGNAL(sspChangingMatrix2(int, int, int)), imagesDsp0->img2, SLOT(helpSspChangingMatrix2(int, int, int)));
     connect(imagesDsp0->img2, SIGNAL(dctChangingMatrix2(int**)), matrixDsp0, SLOT(matrix2ChangedBySsp(int**)));
 
-    imagesDsp0->srcImageUpdate("/Users/Kingston/Desktop/bird.jpg");
+    imagesDsp0->srcImageUpdate("/Users/Kingston/Desktop/default.jpg");
     matrixDsp0->QMUpdated(imagesDsp1->img1->QM[0], "non-uniform quantization");
 }
 
